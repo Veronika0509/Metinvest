@@ -12,43 +12,6 @@ img {
     display: block;
     object-fit: cover;
 }
-.container {
-    max-width: 1244px;
-    margin: 0 auto;
-}
-.main {
-    display: flex;
-}
-.logo {
-    margin-top: 34px;
-}
-.christmas-tree {
-    margin-top: 52px;
-}
-.armchair-container {
-    margin-top: 335px;
-    margin-left: 710px;
-    /*position: absolute;*/
-    position: absolute;
-    z-index: -1;
-}
-.cat img {
-    position: absolute;
-    margin-left: 135px;
-    margin-top: -45px;
-    z-index: 2;
-}
-.fireplace-container {
-    margin-top: -61px;
-}
-.fire {
-    position: absolute;
-    margin-top: -113px;
-    margin-left: 231px;
-}
-
-
-
 .test {
     width: 1200px;
     margin: 0 auto;
@@ -127,6 +90,9 @@ img {
     margin-top: 50px;
     cursor: pointer;
 }
+.pagination.disabled {
+    opacity: 0.7;
+}
 .button-prev {
     margin-right: 20px;
 }
@@ -139,6 +105,7 @@ img {
 }
 .slide {
     min-width: 530px;
+    transition: .5s;
 }
 .slide p {
     max-width: 520px;
@@ -153,7 +120,7 @@ img {
     align-items: center;
     justify-content: center;
 }
-.modal-first.disable {
+.modal-first.disabled {
     display: none;
 }
 .modal-first-window {
