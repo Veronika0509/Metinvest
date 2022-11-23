@@ -5,6 +5,16 @@ import rightArrow from '../img/next.png'
 import santa1 from '../img/santa1.png'
 import closeBtn1 from '../img/closebtn.png'
 import firstModalBg from '../img/modal-first-bg.jpg'
+import Sock1 from '../img/sock1.png'
+import Sock2 from '../img/sock2.png'
+import Sock3 from '../img/sock3.png'
+import Sock4 from '../img/sock4.png'
+import Sock5 from '../img/sock5.png'
+import Sock6 from '../img/sock6.png'
+import Sock7 from '../img/sock7.png'
+import Sock8 from '../img/sock8.png'
+import Sock9 from '../img/sock9.png'
+import Sock10 from '../img/sock10.png'
 
 const Metinvest = () => {
 
@@ -53,17 +63,17 @@ const Metinvest = () => {
             text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut inventore ipsam magni maxime neque nulla obcaecati quaerat ratione sequi voluptate?'
         }
     ])
-    const socksArray = [
-        {text: 'детский дом'},
-        {text: 'детский дом'},
-        {text: 'детский дом'},
-        {text: 'детский дом'},
-        {text: 'детский дом'},
-        {text: 'детский дом'},
-        {text: 'детский дом'},
-        {text: 'детский дом'},
-        {text: 'детский дом'},
-        {text: 'детский дом'}
+    const firstModalSock = [
+        {img: Sock1},
+        {img: Sock2},
+        {img: Sock3},
+        {img: Sock4},
+        {img: Sock5},
+        {img: Sock6},
+        {img: Sock7},
+        {img: Sock8},
+        {img: Sock9},
+        {img: Sock10}
     ]
 
     const [prev, setPrev] = useState(false)
@@ -89,7 +99,7 @@ const Metinvest = () => {
     return (
         <div className="main">
             <div className="socks">
-                {socksArray.map((s) => <Sock onSockClick={onSockClick} text={s.text}/>)}
+                {/*{socksArray.map((s) => <Sock onSockClick={onSockClick} />)}*/}
             </div>
             <div className={sockModalActive ? "modal active" : "modal"}>
                 <div className="modal-window">
@@ -115,21 +125,36 @@ const Metinvest = () => {
             <div className={firstModalActive ? "modal-first" : "modal-first disabled"}>
                 <div className="modal-first-container">
                     <div className="modal-first-window">
-                        <h2 className='modal-first-title'>Ласкаво просимо до онлайн порталу чарівного благодійного
-                            святкового свята!</h2>
+                        <div className="modal-first-wrapper">
+                            <h2 className='modal-first-title'>Ласкаво просимо до онлайн порталу чарівного благодійного
+                                святкового свята!</h2>
+                        </div>
                         <img className="modal-first-image" src={santa1} alt="Santa"/>
-                        <p className='modal-first-text'>
-                            Марко та Оленка бавилися у сніжки,
-                            ліпили снігових баб і цілі фортеці.
-                            З ними часто бавився Жартун з Найвеселішої країни
-                            Найсмішніших жартунів (чи як там вона називається)
-                            та Сонячний Промінчик. Кузь та Русалоньки зараз спали аж до літа.
-                        </p>
-                        <button className="modal-first-btn-close" onClick={() => setFirstModalActive(false)}>
-                            <img src={closeBtn1} alt="Close"/>
-                        </button>
+                        <div className="modal-first-wrapper">
+                            <p className='modal-first-text'>
+                                Марко та Оленка бавилися у сніжки,
+                                ліпили снігових баб і цілі фортеці.
+                                З ними часто бавився Жартун з Найвеселішої країни
+                                Найсмішніших жартунів (чи як там вона називається)
+                                та Сонячний Промінчик. Кузь та Русалоньки зараз спали аж до літа.
+                            </p>
+                            <div className="first-modal-socks">
+                                {firstModalSock.map((s) => <FirstModalSock img={s.img}/>)}
+                            </div>
+                            <p className="modal-first-text2">
+                                Інколи він перетворювався на вовка і бігав зі зграєю,
+                                інколи – на ширяючого в піднебессі орла. А зараз от,
+                                він вирішив спробувати прожити зиму снігуром. Хоч чарівникові й було
+                                сто років, але він любив побавитися, посміятися та поганяти за сніжинками.
+                            </p>
+                            <p className="modal-first-text3">Кузь та Русалоньки зараз спали аж до літа.</p>
+                            <a href="#" className="modal-first-button">зробити чудо</a>
+                        </div>
                     </div>
                 </div>
+                <button className="modal-first-btn-close" onClick={() => setFirstModalActive(false)}>
+                    <img src={closeBtn1} alt="Close"/>
+                </button>
                 <div className="overlay overlay-first" style={{background: `url(${firstModalBg}) no-repeat center center / cover`}}></div>
             </div>
         </div>
@@ -147,12 +172,10 @@ const Slide = (props) => {
         </div>
     )
 }
-const Sock = (props) => {
+const FirstModalSock = (props) => {
     return (
-        <div className="sock" onClick={props.onSockClick}>
-            <p className="sock-text">
-                {props.text}
-            </p>
+        <div className="first-modal-sock">
+            <img src={props.img} alt='Sock' />
         </div>
     )
 }

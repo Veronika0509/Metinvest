@@ -6,7 +6,7 @@
     url('../fonts/bold/Gilroy-Bold.woff') format('woff'),
     url('../fonts/bold/Gilroy-Bold.ttf') format('truetype'),
     url('../fonts/bold/Gilroy-Bold.svg#Gilroy-Bold') format('svg');
-    font-weight: bold;
+    font-weight: 700;
     font-style: normal;
     font-display: swap;
 }
@@ -71,12 +71,12 @@ img {
     width: 100%;
     justify-content: space-between;
 }
-.sock {
-    background: url("../img/sock-null.png") no-repeat center center / cover;
-    width: 100px;
-    height: 146px;
-    cursor: pointer;
-}
+/*.sock {*/
+/*    !*background: url("../img/sock-null.png") no-repeat center center / cover;*!*/
+/*    width: 100px;*/
+/*    height: 146px;*/
+/*    cursor: pointer;*/
+/*}*/
 .sock-text {
     max-width: 64px;
     font-size: 13px;
@@ -176,11 +176,14 @@ img {
 .modal-first-window {
     position: relative;
     z-index: 2;
-    width: 990px;
+    max-width: 990px;
     border-radius: 20px;
     background-color: #FFEFE4;
     padding: 59px 90px 32px 105px;
     outline: 17px dashed red;
+    height: 570px;
+    overflow: auto;
+    overflow-x: hidden;
 }
 .modal-first-container {
     padding: 17px;
@@ -188,12 +191,17 @@ img {
     width: 1024px;
     z-index: 2;
     border-radius: 36px;
+    font-family: Gilroy, sans-serif;
+}
+.modal-first-wrapper {
+    width: 651px;
+    margin: 0 auto;
 }
 .modal-first-btn-close {
     position: absolute;
-    top: -17px;
-    right: -57px;
     z-index: 2;
+    margin-left: 1088px;
+    margin-bottom: 582px;
     background: none;
     border: none;
     cursor: pointer;
@@ -202,22 +210,50 @@ img {
     border-radius: 15px;
     margin-top: 24px;
     margin-bottom: 24px;
+    min-width: 100%;
 }
 .modal-first-title {
     font-size: 33px;
     max-width: 691px;
     text-align: center;
-    font-family: Gilroy, sans-serif;
     font-weight: 600;
-    margin: 0 auto;
 }
 .modal-first-text {
-    font-family: Gilroy, sans-serif;
     font-weight: normal;
     font-size: 15px;
-    margin: 0 auto;
     max-width: 627px;
 }
 .overlay-first {
     opacity: 1;
+}
+.first-modal-socks {
+    display: flex;
+    align-items: center;
+    width: 428px;
+    margin: 44px auto 36px auto;
+}
+.modal-first-text2 {
+    max-width: 627px;
+}
+.modal-first-text3 {
+    font-weight: 700;
+    margin-top: 34px;
+}
+.modal-first-button {
+    display: block;
+    width: 325px;
+    text-transform: uppercase;
+    color: white;
+    font-weight: 600;
+    font-size: 20px;
+    background: #4D8650;
+    border-radius: 10px;
+    text-align: center;
+    padding: 25px 86px 21px;
+    margin: 78px auto 0 auto;
+    border: 3px solid transparent;
+    transition: .5s;
+}
+.modal-first-button:hover {
+    box-shadow: 0px 12px 39px 21px rgba(77, 134, 80, 0.2);
 }
