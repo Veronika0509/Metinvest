@@ -2,6 +2,9 @@ import React, {useRef, useState} from 'react'
 import './metinvest.css'
 import leftArrow from '../img/left-arrow.png'
 import rightArrow from '../img/next.png'
+import santa1 from '../img/santa1.png'
+import closeBtn1 from '../img/closebtn.png'
+import firstModalBg from '../img/modal-first-bg.jpg'
 
 const Metinvest = () => {
 
@@ -68,37 +71,23 @@ const Metinvest = () => {
     let position = 0
     const slider = useRef(null)
     const prevHandler = () => {
-        if (position === 0) {
-            setPrev(true)
-        } else {
-            position += 530
-            slider.current.childNodes.forEach((slide) => {
-                slide.style = `transform: translateX(${position}px)`
-            })
-        }
+        position += 530
+        slider.current.childNodes.forEach((slide) => {
+            slide.style = `transform: translateX(${position}px)`
+        })
     }
     const nextHandler = () => {
-        if (position === -4770) {
-            setNext(true)
-        } else {
-            position -= 530
-            slider.current.childNodes.forEach((slide) => {
-                slide.style = `transform: translateX(${position}px)`
-            })
-        }
-        console.log(position)
+        position -= 530
+        slider.current.childNodes.forEach((slide) => {
+            slide.style = `transform: translateX(${position}px)`
+        })
     }
     const onSockClick = () => {
         setSockModalActive(true)
-        if (position === 0) {
-            setPrev(true)
-        } else if (position === -5300) {
-            setNext(true)
-        }
     }
 
     return (
-        <div className="test">
+        <div className="main">
             <div className="socks">
                 {socksArray.map((s) => <Sock onSockClick={onSockClick} text={s.text}/>)}
             </div>
@@ -124,16 +113,24 @@ const Metinvest = () => {
                 <div className="overlay"></div>
             </div>
             <div className={firstModalActive ? "modal-first" : "modal-first disabled"}>
-                <div className="modal-first-window">
-                    <h1>Как голосовать?</h1>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                        Aut inventore ipsam magni maxime neque nulla obcaecati
-                        quaerat ratione sequi voluptate?
-                    </p>
-                    <button className="modal-first-btn-close" onClick={() => setFirstModalActive(false)}>x</button>
+                <div className="modal-first-container">
+                    <div className="modal-first-window">
+                        <h2 className='modal-first-title'>Ласкаво просимо до онлайн порталу чарівного благодійного
+                            святкового свята!</h2>
+                        <img className="modal-first-image" src={santa1} alt="Santa"/>
+                        <p className='modal-first-text'>
+                            Марко та Оленка бавилися у сніжки,
+                            ліпили снігових баб і цілі фортеці.
+                            З ними часто бавився Жартун з Найвеселішої країни
+                            Найсмішніших жартунів (чи як там вона називається)
+                            та Сонячний Промінчик. Кузь та Русалоньки зараз спали аж до літа.
+                        </p>
+                        <button className="modal-first-btn-close" onClick={() => setFirstModalActive(false)}>
+                            <img src={closeBtn1} alt="Close"/>
+                        </button>
+                    </div>
                 </div>
-                <div className="overlay"></div>
+                <div className="overlay overlay-first" style={{background: `url(${firstModalBg}) no-repeat center center / cover`}}></div>
             </div>
         </div>
     )
