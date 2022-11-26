@@ -1,25 +1,54 @@
 import React, {useRef, useState} from 'react'
 import './metinvest.css'
-import leftArrow from '../img/left-arrow.png'
-import rightArrow from '../img/next.png'
-import santa1 from '../img/santa1.png'
-import closeBtn1 from '../img/closebtn.png'
-import firstModalBg from '../img/modal-first-bg.jpg'
-import Sock1 from '../img/sock1.png'
-import Sock2 from '../img/sock2.png'
-import Sock3 from '../img/sock3.png'
-import Sock4 from '../img/sock4.png'
-import Sock5 from '../img/sock5.png'
-import Sock6 from '../img/sock6.png'
-import Sock7 from '../img/sock7.png'
-import Sock8 from '../img/sock8.png'
-import Sock9 from '../img/sock9.png'
-import Sock10 from '../img/sock10.png'
+import leftArrow from '../img/assets/left-arrow.png'
+import rightArrow from '../img/assets/next.png'
+import santa1 from '../img/assets/santa1.png'
+import closeBtn1 from '../img/assets/closebtn.png'
+import firstModalBg from '../img/assets/modal-first-bg.jpg'
+import sock1 from '../img/firstModalSocks/sock1.png'
+import sock2 from '../img/firstModalSocks/sock2.png'
+import sock3 from '../img/firstModalSocks/sock3.png'
+import sock4 from '../img/firstModalSocks/sock4.png'
+import sock5 from '../img/firstModalSocks/sock5.png'
+import sock6 from '../img/firstModalSocks/sock6.png'
+import sock7 from '../img/firstModalSocks/sock7.png'
+import sock8 from '../img/firstModalSocks/sock8.png'
+import sock9 from '../img/firstModalSocks/sock9.png'
+import sock10 from '../img/firstModalSocks/sock10.png'
+import mainSectionBg from '../img/assets/main-section-bg.jpg'
+import logo from '../img/assets/logo.png'
+import soundFire from '../img/assets/fire.png'
+import soundMusic from '../img/assets/music.png'
+import soundCat from '../img/assets/cat.png'
+import soundQuestion from '../img/assets/question.png'
+import mainSock1 from '../img/mainSocks/mainsock1.png'
+import mainSock2 from '../img/mainSocks/mainsock2.png'
+import mainSock3 from '../img/mainSocks/mainsock3.png'
+import mainSock4 from '../img/mainSocks/mainsock4.png'
+import mainSock5 from '../img/mainSocks/mainsock5.png'
+import mainSock6 from '../img/mainSocks/mainsock6.png'
+import mainSock7 from '../img/mainSocks/mainsock7.png'
+import mainSock8 from '../img/mainSocks/mainsock8.png'
+import mainSock9 from '../img/mainSocks/mainsock9.png'
+import mainSock10 from '../img/mainSocks/mainsock10.png'
+import dots from '../img/assets/dots.png'
+import mainSockTextBg from '../img/assets/main-sock-text-bg.png'
+import modalImage from '../img/assets/modal-image.png'
+import qr from '../img/assets/qr.png'
+import modalPrev from '../img/assets/modal-left.png'
+import modalNext from '../img/assets/modal-right.png'
+import modalSock from '../img/assets/modal-sock.png'
+import modalActiveSock from '../img/assets/modal-sock-active.png'
+import modalSweet from '../img/assets/modal-sweet.png'
+import modalDisableSweet from '../img/assets/modal-sweet-disable.png'
+import modalMessageBg from '../img/assets/modal-message-bg.png'
 
 const Metinvest = () => {
 
     const [sockModalActive, setSockModalActive] = useState(false)
     const [firstModalActive, setFirstModalActive] = useState(true)
+    const [modalMessageActive, setModalMessageActive] = useState(false)
+    const [modalMessageYesActive, setModalMessageYesActive] = useState(false)
 
     const [slides, setSlider] = useState([
         {
@@ -64,17 +93,94 @@ const Metinvest = () => {
         }
     ])
     const firstModalSock = [
-        {img: Sock1},
-        {img: Sock2},
-        {img: Sock3},
-        {img: Sock4},
-        {img: Sock5},
-        {img: Sock6},
-        {img: Sock7},
-        {img: Sock8},
-        {img: Sock9},
-        {img: Sock10}
+        {img: sock1},
+        {img: sock2},
+        {img: sock3},
+        {img: sock4},
+        {img: sock5},
+        {img: sock6},
+        {img: sock7},
+        {img: sock8},
+        {img: sock9},
+        {img: sock10}
     ]
+    const mainSockTexts = [
+        {
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        }
+    ]
+    const mainSocks = [
+        {img: mainSock1},
+        {img: mainSock2},
+        {img: mainSock3},
+        {img: mainSock4},
+        {img: mainSock5},
+        {img: mainSock6},
+        {img: mainSock7},
+        {img: mainSock8},
+        {img: mainSock9},
+        {img: mainSock10},
+    ]
+    const modalSocks = [
+        {sock: modalSock},
+        {sock: modalSock},
+        {sock: modalActiveSock},
+        {sock: modalSock},
+        {sock: modalSock},
+        {sock: modalSock},
+        {sock: modalSock},
+        {sock: modalSock},
+        {sock: modalSock},
+        {sock: modalSock},
+    ]
+    const modalSweets = [
+        {sweet: modalDisableSweet},
+        {sweet: modalSweet},
+        {sweet: modalSweet}
+    ]
+    const onModalMessageClick = () => {
+        console.log(modalMessageYesActive)
+        setModalMessageYesActive(true)
+        setTimeout(() => setModalMessageActive(false),3000)
+    }
+
 
     const [prev, setPrev] = useState(false)
     const [next, setNext] = useState(false)
@@ -98,25 +204,83 @@ const Metinvest = () => {
 
     return (
         <div className="main">
-            <div className="socks">
-                {/*{socksArray.map((s) => <Sock onSockClick={onSockClick} />)}*/}
+            <div className="main-section" style={{backgroundImage: `url(${mainSectionBg})`}}>
+                <div className="main-head">
+                    <img src={logo} alt="Logo"/>
+                    <div className="main-sounds">
+                        <img src={soundFire} alt="Fire"/>
+                        <img src={soundMusic} alt="Music"/>
+                        <img src={soundCat} alt="Cat"/>
+                        <img src={soundQuestion} alt="Question"/>
+                    </div>
+                </div>
+                <div className="main-timer">
+                    time
+                </div>
+                <div className="main-sock-texts">
+                    {mainSockTexts.map((t) => <MainSockText title={t.title} text={t.text} />)}
+                </div>
+                <div className="main-socks">
+                    {mainSocks.map((s) => <MainSock img={s.img} setSockModalActive={setSockModalActive} />)}
+                </div>
+                <div className="main-fire-cat">
+                    <div className="main-fire"></div>
+                    <div className="main-cat"></div>
+                </div>
             </div>
-            <div className={sockModalActive ? "modal active" : "modal"}>
-                <div className="modal-window">
-                    <button className="btn-close" onClick={() => setSockModalActive(false)}>x</button>
-                    <div className="modal-container">
-                        <div className="modal-content" ref={slider}>
-                            {slides.map((s) => <Slide number={s.number} text={s.text}/>)}
+            <div className={sockModalActive ? 'modal active' : 'modal'}>
+                <div className="modal-window-container">
+                    <div className="modal-head">
+                        <div className="modal-socks-container">
+                            <div className="modal-prev"><img src={modalPrev} alt="Previous slide"/></div>
+                            <div className="modal-socks">
+                                {modalSocks.map((i) => <img className="modal-sock" src={i.sock} alt="Sock"/>)}
+                            </div>
+                            <div className="modal-next"><img src={modalNext} alt="Next slide"/></div>
                         </div>
-                        <div className="btns">
-                            <button className={prev ? 'pagination button-prev disabled' : 'pagination button-prev'}
-                                    onClick={prevHandler}>
-                                <img src={leftArrow} alt="Left Arrow"/>
-                            </button>
-                            <button className={next ? 'pagination button-next disabled' : 'pagination button-next'}
-                                    onClick={nextHandler}>
-                                <img src={rightArrow} alt="Right Arrow"/>
-                            </button>
+                        <div className="modal-left-votes">
+                            <p className="modal-left-vote-text">У вас залишилось голосів</p>
+                            <div className="modal-left-vote-imgs">
+                                {modalSweets.map((s) => <img src={s.sweet} alt="Sweet"/>)}
+                            </div>
+                        </div>
+                        <button className="btn-close" onClick={() => setSockModalActive(false)}><img src={closeBtn1} alt="To Close"/></button>
+                    </div>
+                    <div className="modal-window">
+                        <h1 className='modal-title'>Снігур, Снічептах!</h1>
+                        <img className='modal-img' src={modalImage} alt="Modal Image"/>
+                        <p className='modal-desc'>
+                            Марко та Оленка бавилися у сніжки, ліпили снігових баб і цілі фортеці.
+                            З ними часто бавився Жартун з Найвеселішої країни Найсмішніших жартунів
+                            (чи як там вона називається) та Сонячний Промінчик. Кузь та Русалоньки зараз спали аж до літа. <br/><br/>
+                            Інколи він перетворювався на вовка і бігав зі зграєю, інколи – на ширяючого в піднебессі орла.
+                            А зараз от, він вирішив спробувати прожити зиму снігуром. Хоч
+                        </p>
+                        <h3 className='modal-subtitle'>Марко та Оленка бавилися у сніжки</h3>
+                        <div className='modal-btns-wrapper'>
+                            <div className='modal-btns'>
+                                <a href="#" className="modal-btn-one" onClick={() => setModalMessageActive(true)}>віддати свій голос</a>
+                                <div className={modalMessageActive ? 'modal-btns-message-wrapper active' : 'modal-btns-message-wrapper'} style={{backgroundImage: `url(${modalMessageBg}`}}>
+                                    <div className="modal-btns-message">
+                                        <img className='modal-dots' src={dots} alt="Dots"/>
+                                        <div className={modalMessageYesActive ? 'modal-message-content-disabled' : ''}>
+                                            <p className="modal-btns-message-text">Підтвердіть своє бажання натиснувши “ТАК”</p>
+                                            <div className="modal-btns-message-btns">
+                                                <a href="#" className="modal-btns-message-btn" onClick={onModalMessageClick}>так</a>
+                                                <a href="#" className="modal-btns-message-btn" onClick={() => setModalMessageActive(false)}>ні</a>
+                                            </div>
+                                        </div>
+                                        <div className={modalMessageYesActive ? '' : 'modal-message-content-disabled'}>
+                                            <p className="modal-btns-message-text">Дякуємо!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href='#' className="modal-btn-two">відправити гроші</a>
+                            </div>
+                            <div className='modal-qr-code'>
+                                <img src={qr} alt="QR Code"/>
+                                <p className="modal-qr-text">Марко та Оленка</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -126,8 +290,7 @@ const Metinvest = () => {
                 <div className="modal-first-container">
                     <div className="modal-first-window">
                         <div className="modal-first-wrapper">
-                            <h2 className='modal-first-title'>Ласкаво просимо до онлайн порталу чарівного благодійного
-                                святкового свята!</h2>
+                            <h2 className='modal-first-title'>Ласкаво просимо до онлайн порталу чарівного благодійного святкового свята!</h2>
                         </div>
                         <img className="modal-first-image" src={santa1} alt="Santa"/>
                         <div className="modal-first-wrapper">
@@ -148,7 +311,7 @@ const Metinvest = () => {
                                 сто років, але він любив побавитися, посміятися та поганяти за сніжинками.
                             </p>
                             <p className="modal-first-text3">Кузь та Русалоньки зараз спали аж до літа.</p>
-                            <a href="#" className="modal-first-button">зробити чудо</a>
+                            <a href="#" className="modal-first-button" onClick={() => setFirstModalActive(false)}>зробити чудо</a>
                         </div>
                     </div>
                 </div>
@@ -175,39 +338,26 @@ const Slide = (props) => {
 const FirstModalSock = (props) => {
     return (
         <div className="first-modal-sock">
-            <img src={props.img} alt='Sock' />
+            <img src={props.img} alt='Sock'/>
+        </div>
+    )
+}
+const MainSock = (props) => {
+    return (
+        <div className="main-sock" onClick={() => props.setSockModalActive(true)}>
+            <img src={props.img} alt='Sock'/>
         </div>
     )
 }
 
-// let position = 0
-// const track = document.querySelector('.modal-content')
-// const btnPrev = document.querySelector('.button-prev')
-// const btnNext = document.querySelector('.button-next')
-//
-// btnPrev.addEventListener('click', function () {
-//     position += 530
-//     setPosition()
-//     checkBtns()
-// })
-//
-// btnNext.addEventListener('click', function () {
-//     position -= 530
-//     setPosition()
-//     checkBtns()
-//     console.log(position)
-// })
-//
-// const setPosition = () => {
-//     track.style.transform = `translateX(${position}px)`
-// }
-//
-// const checkBtns = () => {
-//     btnPrev.disabled = position === 0
-//     btnPrev.disabled ? btnPrev.style.opacity = 0.7 : btnPrev.style.opacity = 1
-//     btnNext.disabled = position === -4770
-//     btnNext.disabled ? btnNext.style.opacity = 0.7 : btnNext.style.opacity = 1
-//
-// }
-//
-// checkBtns()
+const MainSockText = (props) => {
+    return (
+        <div className="main-sock-text-container" style={{backgroundImage: `url(${mainSockTextBg})`}}>
+            <div className="main-sock-text">
+                <img className="main-sock-text-dots" src={dots} alt="Dots"/>
+                <h2 className="main-sock-title">{props.title}</h2>
+                <p className="main-sock-desc">{props.text}</p>
+            </div>
+        </div>
+    )
+}
