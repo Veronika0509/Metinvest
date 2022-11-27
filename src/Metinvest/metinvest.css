@@ -249,6 +249,11 @@ img {
 .main-sock:hover {
     transform: scale(1.2);
 }
+
+.main-sock-wrapper:hover .main-sock-text-container {
+    display: block;
+}
+
 .main-sock-text-container {
     position: absolute;
     width: 320px;
@@ -256,39 +261,11 @@ img {
     /*display: flex;*/
     align-items: center;
     justify-content: center;
-    margin-top: -100px;
     display: none;
+    margin-left: -120px;
+    margin-top: -200px;
 }
-.main-sock-text-container:nth-child(1) {
-    margin-left: 134px;
-}
-.main-sock-text-container:nth-child(2) {
-    margin-left: 233px;
-}
-.main-sock-text-container:nth-child(3) {
-    margin-left: 326px;
-}
-.main-sock-text-container:nth-child(4) {
-    margin-left: 424px;
-}
-.main-sock-text-container:nth-child(5) {
-    margin-left: 529px;
-}
-.main-sock-text-container:nth-child(6) {
-    margin-left: 631px;
-}
-.main-sock-text-container:nth-child(7) {
-    margin-left: 732px;
-}
-.main-sock-text-container:nth-child(8) {
-    margin-left: 827px;
-}
-.main-sock-text-container:nth-child(9) {
-    margin-left: 921px;
-}
-.main-sock-text-container:nth-child(10) {
-    margin-left: 1018px;
-}
+
 .main-sock-text-dots {
     position: absolute;
     top: 16px;
