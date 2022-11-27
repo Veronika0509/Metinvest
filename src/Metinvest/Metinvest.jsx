@@ -48,7 +48,10 @@ const Metinvest = () => {
     const [sockModalActive, setSockModalActive] = useState(false)
     const [firstModalActive, setFirstModalActive] = useState(true)
     const [modalMessageActive, setModalMessageActive] = useState(false)
-    const [modalMessageYesActive, setModalMessageYesActive] = useState(false)
+    const [modalMessageYesActive, setModalMessageYesActive] = useState(true)
+    const [modalMessageThankYouActive, setModalMessageThankYouActive] = useState(false)
+    const [votingInProcess, setVotingInProcess] = useState(false)
+    const [voteError, setVoteError] = useState(false)
 
     const [slides, setSlider] = useState([
         {
@@ -176,17 +179,19 @@ const Metinvest = () => {
         {sweet: modalSweet}
     ]
     const onModalMessageClick = () => {
-        console.log(modalMessageYesActive)
+        makeVote()
 
-        // TODO Где здесь нужно ещё показывать какой-то preloader, что идёт процесс голосования
-        // setVotingInProcess(true)
+        setModalMessageYesActive(false)
+        setVotingInProcess(true)
         makeVote().then( async () => {
-            setModalMessageYesActive(true)
+
         }).catch( async (e) => {
-            // setError()
+            console.log(e)
+            setVoteError(true)
         }).finally( () => {
-            // setVotingInProcess(false)
-            setModalMessageActive(false)
+            setVotingInProcess(false)
+            setModalMessageThankYouActive(true)
+            setTimeout(() => setModalMessageActive(false), 3000)
         })
 
     }
@@ -211,6 +216,7 @@ const Metinvest = () => {
             slide.style = `transform: translateX(${position}px)`
         })
     }
+
     const onSockClick = () => {
         setSockModalActive(true)
     }
@@ -276,15 +282,21 @@ const Metinvest = () => {
                                 <div className={modalMessageActive ? 'modal-btns-message-wrapper active' : 'modal-btns-message-wrapper'} style={{backgroundImage: `url(${modalMessageBg}`}}>
                                     <div className="modal-btns-message">
                                         <img className='modal-dots' src={dots} alt="Dots"/>
-                                        <div className={modalMessageYesActive ? 'modal-message-content-disabled' : ''}>
+                                        <div className={modalMessageYesActive ? '' : 'modal-message-content-disabled'}>
                                             <p className="modal-btns-message-text">Підтвердіть своє бажання натиснувши “ТАК”</p>
                                             <div className="modal-btns-message-btns">
-                                                <a href="#" className="modal-btns-message-btn" onClick={makeVote}>так</a>
+                                                <a href="#" className="modal-btns-message-btn" onClick={onModalMessageClick}>так</a>
                                                 <a href="#" className="modal-btns-message-btn" onClick={() => setModalMessageActive(false)}>ні</a>
                                             </div>
                                         </div>
-                                        <div className={modalMessageYesActive ? '' : 'modal-message-content-disabled'}>
+                                        <div className={votingInProcess ? 'preloader active' : 'preloader'}>
+                                            <div className="loader"></div>
+                                        </div>
+                                        <div className={modalMessageThankYouActive ? '' : 'modal-message-content-disabled'}>
                                             <p className="modal-btns-message-text">Дякуємо!</p>
+                                        </div>
+                                        <div className={voteError ? '' : 'modal-message-content-disabled'}>
+                                            <p className="modal-btns-message-text">Что-то пошло не так <br/>Повторите попытку позже</p>
                                         </div>
                                     </div>
                                 </div>
@@ -333,6 +345,9 @@ const Metinvest = () => {
                 </button>
                 <div className="overlay overlay-first" style={{background: `url(${firstModalBg}) no-repeat center center / cover`}}></div>
             </div>
+            {/*<div className="result">*/}
+            {/*    */}
+            {/*</div>*/}
         </div>
     )
 }
