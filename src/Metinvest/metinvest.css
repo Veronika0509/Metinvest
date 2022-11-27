@@ -558,16 +558,12 @@ img {
 
 @keyframes spin{
     0%{
-        -webkit-transform: rotate(0deg);
         -ms-transform: rotate(0deg);
-        -o-transform: rotate(0deg);
         transform: rotate(0deg);
     }
 
     100%{
-        -webkit-transform: rotate(360deg);
         -ms-transform: rotate(360deg);
-        -o-transform: rotate(360deg);
         transform: rotate(360deg);
     }
 }
@@ -576,4 +572,120 @@ img {
 }
 .preloader.active {
     display: block;
+}
+
+.results {
+    background-repeat: no-repeat;
+    width: 1440px;
+    height: 858px;
+    margin: 0 auto;
+    padding-top: 86px;
+}
+.results-bottom {
+    position: absolute;
+    margin-top: 27px;
+}
+.result-logo {
+    position: absolute;
+    z-index: 2;
+    margin-left: 31px;
+    margin-top: -65px;
+}
+
+.result-item {
+    background: #fff;
+    border-radius: 10px;
+    padding: 37px 32px 30px 33px;
+    display: block;
+    width: 272px;
+    height: 435px;
+}
+.results-content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 880px;
+    height: 605px;
+    overflow: auto;
+    margin: 30px auto 0 auto;
+}
+.result-item-img {
+    margin: 0 auto;
+}
+.result-item-votes {
+    text-align: center;
+}
+.result-item:not(:nth-child(3n+3)) {
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+.results-christmas-tree {
+    position: absolute;
+    margin-top: -763px;
+}
+.results-floor {
+    position: absolute;
+    margin-top: -8px;
+}
+.results-presents {
+    position: absolute;
+    margin-top: -110px;
+}
+.results-armchair {
+    position: absolute;
+    margin-left: 1171px;
+    margin-top: -294px;
+}
+.results-content-title {
+    font-family: Gilroy, sans-serif;
+    font-weight: 600;
+    font-size: 58px;
+    text-align: center;
+    color: #fff;
+}
+.result-item-img img {
+    width: 55px;
+    margin: 0 auto;
+}
+.result-item-votes {
+    font-family: Gilroy, sans-serif;
+    font-weight: 600;
+    font-size: 53px;
+    text-align: center;
+    margin-top: 23px;
+}
+.result-item-votes-text {
+    font-family: Gilroy, sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 13px;
+}
+.result-item-title {
+    font-family: Gilroy, sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    margin-top: 19px;
+}
+.result-item-btn {
+    display: block;
+    margin: 25px auto 0 auto;
+    font-family: Gilroy, sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    text-transform: uppercase;
+    background: #4D8650;
+    padding: 19px 57px;
+    border-radius: 10px;
+    text-align: center;
+    color: #fff;
+    max-width: 181px;
+    height: 62px;
+    border: 1px solid #4D8650;
+    transition: .3s;
+}
+.result-item-btn:hover {
+    background: none;
+    color: #4D8650;
+    border: 1px solid #4D8650;
 }
