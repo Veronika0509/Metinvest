@@ -177,10 +177,23 @@ const Metinvest = () => {
     ]
     const onModalMessageClick = () => {
         console.log(modalMessageYesActive)
-        setModalMessageYesActive(true)
-        setTimeout(() => setModalMessageActive(false),3000)
+
+        // TODO Где здесь нужно ещё показывать какой-то preloader, что идёт процесс голосования
+        // setVotingInProcess(true)
+        makeVote().then( async () => {
+            setModalMessageYesActive(true)
+        }).catch( async (e) => {
+            // setError()
+        }).finally( () => {
+            // setVotingInProcess(false)
+            setModalMessageActive(false)
+        })
+
     }
 
+    const makeVote = async () => {
+        await delay(3000)
+    }
 
     const [prev, setPrev] = useState(false)
     const [next, setNext] = useState(false)
@@ -266,7 +279,7 @@ const Metinvest = () => {
                                         <div className={modalMessageYesActive ? 'modal-message-content-disabled' : ''}>
                                             <p className="modal-btns-message-text">Підтвердіть своє бажання натиснувши “ТАК”</p>
                                             <div className="modal-btns-message-btns">
-                                                <a href="#" className="modal-btns-message-btn" onClick={onModalMessageClick}>так</a>
+                                                <a href="#" className="modal-btns-message-btn" onClick={makeVote}>так</a>
                                                 <a href="#" className="modal-btns-message-btn" onClick={() => setModalMessageActive(false)}>ні</a>
                                             </div>
                                         </div>
@@ -360,4 +373,8 @@ const MainSockText = (props) => {
             </div>
         </div>
     )
+}
+
+async function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }
