@@ -48,6 +48,10 @@ import floor from '../img/assets/floor.jpg'
 import presents from '../img/assets/presents.png'
 import armchair from '../img/assets/armchair.png'
 
+// const serverUrl = "http://localhost:3003/"
+const serverUrl = "https://metinvest-app.herokuapp.com/"
+const userId = getUserId()
+
 const Metinvest = () => {
 
     const [sockModalActive, setSockModalActive] = useState(false)
@@ -154,7 +158,8 @@ const Metinvest = () => {
             text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
         }
     ]
-    const mainSocks = [
+
+    const projects = [
         {
             img: mainSock1,
             title: 'Снігур, Снічептах!',
@@ -205,7 +210,11 @@ const Metinvest = () => {
             title: 'Снігур, Снічептах!',
             text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
         },
-    ]
+    ].map( (project, index) => {
+        project.id = index
+        return project
+    })
+
     const modalSocks = [
         {sock: modalSock},
         {sock: modalSock},
@@ -218,18 +227,23 @@ const Metinvest = () => {
         {sock: modalSock},
         {sock: modalSock},
     ]
+
     const modalSweets = [
         {sweet: modalDisableSweet},
         {sweet: modalSweet},
         {sweet: modalSweet}
     ]
-    const onModalMessageClick = () => {
-        makeVote()
+
+    const onModalMessageClick = (projectId) => {
+        // fixme projectId always == 1
+
+        // todo check getVotesLeft()
 
         setModalMessageYesActive(false)
         setVotingInProcess(true)
-        makeVote().then(async () => {
 
+        makeVote(projectId).then(async () => {
+            registerVoteMadeLocally()
         }).catch(async (e) => {
             console.log(e)
             setVoteError(true)
@@ -253,8 +267,15 @@ const Metinvest = () => {
         {img: mainSock10, votes: 0, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'}
     ]
 
-    const makeVote = async () => {
-        await delay(3000)
+    const makeVote = async (projectId) => {
+        // await delay(3000)
+        const result = await fetch(serverUrl + `vote?userId=${userId}&projectId=${projectId}`, {
+            method: "post"
+        })
+
+        if (!result.ok) {
+            throw new Error("Cannot vote")
+        }
     }
 
     const [prev, setPrev] = useState(false)
@@ -294,7 +315,7 @@ const Metinvest = () => {
                     time
                 </div>
                 <div className="main-socks">
-                    {mainSocks.map((s) => <MainSock title={s.title} text={s.text} img={s.img}
+                    {projects.map((s) => <MainSock title={s.title} text={s.text} img={s.img}
                                                     setSockModalActive={setSockModalActive}/>)}
                 </div>
                 <div className="main-fire-cat">
@@ -349,7 +370,7 @@ const Metinvest = () => {
                                                 “ТАК”</p>
                                             <div className="modal-btns-message-btns">
                                                 <a href="#" className="modal-btns-message-btn"
-                                                   onClick={onModalMessageClick}>так</a>
+                                                   onClick={() => onModalMessageClick(1)}>так</a>
                                                 <a href="#" className="modal-btns-message-btn"
                                                    onClick={() => setModalMessageActive(false)}>ні</a>
                                             </div>
@@ -487,4 +508,30 @@ const ResultItem = (props) => {
 
 async function delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function getUserId() {
+    const id = localStorage.getItem("id")
+    if (!id) {
+        let date = new Date();
+        const newId = date.getTime() * 1000 + date.getMilliseconds()
+        localStorage.setItem("id", newId)
+        return newId.toString()
+    } else {
+        return id
+    }
+}
+
+function getVotesLeft() {
+    const votesLeft = localStorage.getItem("votesLeft")
+    if (!votesLeft) {
+        return 3
+    } else {
+        return votesLeft
+    }
+}
+
+function registerVoteMadeLocally() {
+    const votesLeft = getVotesLeft()
+    localStorage.setItem("votesLeft", votesLeft - 1)
 }
