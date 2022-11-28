@@ -160,15 +160,51 @@ const Metinvest = () => {
             title: 'Снігур, Снічептах!',
             text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
         },
-        {img: mainSock2},
-        {img: mainSock3},
-        {img: mainSock4},
-        {img: mainSock5},
-        {img: mainSock6},
-        {img: mainSock7},
-        {img: mainSock8},
-        {img: mainSock9},
-        {img: mainSock10},
+        {
+            img: mainSock2,
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            img: mainSock3,
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            img: mainSock4,
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            img: mainSock5,
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            img: mainSock6,
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            img: mainSock7,
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            img: mainSock8,
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            img: mainSock9,
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
+        {
+            img: mainSock10,
+            title: 'Снігур, Снічептах!',
+            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+        },
     ]
     const modalSocks = [
         {sock: modalSock},
@@ -192,12 +228,12 @@ const Metinvest = () => {
 
         setModalMessageYesActive(false)
         setVotingInProcess(true)
-        makeVote().then( async () => {
+        makeVote().then(async () => {
 
-        }).catch( async (e) => {
+        }).catch(async (e) => {
             console.log(e)
             setVoteError(true)
-        }).finally( () => {
+        }).finally(() => {
             setVotingInProcess(false)
             setModalMessageThankYouActive(true)
             setTimeout(() => setModalMessageActive(false), 3000)
@@ -258,7 +294,8 @@ const Metinvest = () => {
                     time
                 </div>
                 <div className="main-socks">
-                    {mainSocks.map((s) => <MainSock title={s.title} text={s.text} img={s.img} setSockModalActive={setSockModalActive} />)}
+                    {mainSocks.map((s) => <MainSock title={s.title} text={s.text} img={s.img}
+                                                    setSockModalActive={setSockModalActive}/>)}
                 </div>
                 <div className="main-fire-cat">
                     <div className="main-fire"></div>
@@ -281,7 +318,9 @@ const Metinvest = () => {
                                 {modalSweets.map((s) => <img src={s.sweet} alt="Sweet"/>)}
                             </div>
                         </div>
-                        <button className="btn-close" onClick={() => setSockModalActive(false)}><img src={closeBtn1} alt="To Close"/></button>
+                        <button className="btn-close" onClick={() => setSockModalActive(false)}><img src={closeBtn1}
+                                                                                                     alt="To Close"/>
+                        </button>
                     </div>
                     <div className="modal-window">
                         <h1 className='modal-title'>Снігур, Снічептах!</h1>
@@ -289,32 +328,42 @@ const Metinvest = () => {
                         <p className='modal-desc'>
                             Марко та Оленка бавилися у сніжки, ліпили снігових баб і цілі фортеці.
                             З ними часто бавився Жартун з Найвеселішої країни Найсмішніших жартунів
-                            (чи як там вона називається) та Сонячний Промінчик. Кузь та Русалоньки зараз спали аж до літа. <br/><br/>
-                            Інколи він перетворювався на вовка і бігав зі зграєю, інколи – на ширяючого в піднебессі орла.
+                            (чи як там вона називається) та Сонячний Промінчик. Кузь та Русалоньки зараз спали аж до
+                            літа. <br/><br/>
+                            Інколи він перетворювався на вовка і бігав зі зграєю, інколи – на ширяючого в піднебессі
+                            орла.
                             А зараз от, він вирішив спробувати прожити зиму снігуром. Хоч
                         </p>
                         <h3 className='modal-subtitle'>Марко та Оленка бавилися у сніжки</h3>
                         <div className='modal-btns-wrapper'>
                             <div className='modal-btns'>
-                                <a href="#" className="modal-btn-one" onClick={() => setModalMessageActive(true)}>віддати свій голос</a>
-                                <div className={modalMessageActive ? 'modal-btns-message-wrapper active' : 'modal-btns-message-wrapper'} style={{backgroundImage: `url(${modalMessageBg}`}}>
+                                <a href="#" className="modal-btn-one" onClick={() => setModalMessageActive(true)}>віддати
+                                    свій голос</a>
+                                <div
+                                    className={modalMessageActive ? 'modal-btns-message-wrapper active' : 'modal-btns-message-wrapper'}
+                                    style={{backgroundImage: `url(${modalMessageBg}`}}>
                                     <div className="modal-btns-message">
                                         <img className='modal-dots' src={dots} alt="Dots"/>
                                         <div className={modalMessageYesActive ? '' : 'modal-message-content-disabled'}>
-                                            <p className="modal-btns-message-text">Підтвердіть своє бажання натиснувши “ТАК”</p>
+                                            <p className="modal-btns-message-text">Підтвердіть своє бажання натиснувши
+                                                “ТАК”</p>
                                             <div className="modal-btns-message-btns">
-                                                <a href="#" className="modal-btns-message-btn" onClick={onModalMessageClick}>так</a>
-                                                <a href="#" className="modal-btns-message-btn" onClick={() => setModalMessageActive(false)}>ні</a>
+                                                <a href="#" className="modal-btns-message-btn"
+                                                   onClick={onModalMessageClick}>так</a>
+                                                <a href="#" className="modal-btns-message-btn"
+                                                   onClick={() => setModalMessageActive(false)}>ні</a>
                                             </div>
                                         </div>
                                         <div className={votingInProcess ? 'preloader active' : 'preloader'}>
                                             <div className="loader"></div>
                                         </div>
-                                        <div className={modalMessageThankYouActive ? '' : 'modal-message-content-disabled'}>
+                                        <div
+                                            className={modalMessageThankYouActive ? '' : 'modal-message-content-disabled'}>
                                             <p className="modal-btns-message-text">Дякуємо!</p>
                                         </div>
                                         <div className={voteError ? '' : 'modal-message-content-disabled'}>
-                                            <p className="modal-btns-message-text">Что-то пошло не так <br/>Повторите попытку позже</p>
+                                            <p className="modal-btns-message-text">Что-то пошло не так <br/>Повторите
+                                                попытку позже</p>
                                         </div>
                                     </div>
                                 </div>
@@ -333,7 +382,8 @@ const Metinvest = () => {
                 <div className="modal-first-container">
                     <div className="modal-first-window">
                         <div className="modal-first-wrapper">
-                            <h2 className='modal-first-title'>Ласкаво просимо до онлайн порталу чарівного благодійного святкового свята!</h2>
+                            <h2 className='modal-first-title'>Ласкаво просимо до онлайн порталу чарівного благодійного
+                                святкового свята!</h2>
                         </div>
                         <img className="modal-first-image" src={santa1} alt="Santa"/>
                         <div className="modal-first-wrapper">
@@ -354,14 +404,16 @@ const Metinvest = () => {
                                 сто років, але він любив побавитися, посміятися та поганяти за сніжинками.
                             </p>
                             <p className="modal-first-text3">Кузь та Русалоньки зараз спали аж до літа.</p>
-                            <a href="#" className="modal-first-button" onClick={() => setFirstModalActive(false)}>зробити чудо</a>
+                            <a href="#" className="modal-first-button" onClick={() => setFirstModalActive(false)}>зробити
+                                чудо</a>
                         </div>
                     </div>
                 </div>
                 <button className="modal-first-btn-close" onClick={() => setFirstModalActive(false)}>
                     <img src={closeBtn1} alt="Close"/>
                 </button>
-                <div className="overlay overlay-first" style={{background: `url(${firstModalBg}) no-repeat center center / cover`}}></div>
+                <div className="overlay overlay-first"
+                     style={{background: `url(${firstModalBg}) no-repeat center center / cover`}}></div>
             </div>
             {/*<div className="results" style={{backgroundImage: `url(${resultsBg})`}}>
                 <div className="result-logo">

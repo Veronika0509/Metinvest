@@ -251,14 +251,13 @@ img {
 }
 
 .main-sock-wrapper:hover .main-sock-text-container {
-    display: block;
+    display: flex;
 }
 
 .main-sock-text-container {
     position: absolute;
     width: 320px;
     height: 169px;
-    /*display: flex;*/
     align-items: center;
     justify-content: center;
     display: none;
@@ -546,6 +545,7 @@ img {
 }
 .preloader {
     display: none;
+    margin-top: -15px;
 }
 .preloader.active {
     display: block;
