@@ -1,4 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useRef, useState, useEffect} from 'react'
+import dayjs from "dayjs";
 import './metinvest.css'
 import leftArrow from '../img/assets/left-arrow.png'
 import rightArrow from '../img/assets/next.png'
@@ -48,9 +49,11 @@ import floor from '../img/assets/floor.jpg'
 import presents from '../img/assets/presents.png'
 import armchair from '../img/assets/armchair.png'
 
-// const serverUrl = "http://localhost:3003/"
-const serverUrl = "https://metinvest-app.herokuapp.com/"
-const userId = getUserId()
+const defaultRemainingTime = {
+    days: '00',
+    hours: '00',
+    minutes: '00'
+}
 
 const Metinvest = () => {
 
@@ -61,8 +64,7 @@ const Metinvest = () => {
     const [modalMessageThankYouActive, setModalMessageThankYouActive] = useState(false)
     const [votingInProcess, setVotingInProcess] = useState(false)
     const [voteError, setVoteError] = useState(false)
-    const [timeOut, setTimeOut] = useState(true)
-    const [resultsArray, setResultsArray] = useState([])
+    const [remainingTime, setRemainingTime] = useState(defaultRemainingTime)
 
     const [slides, setSlider] = useState([
         {
@@ -160,8 +162,7 @@ const Metinvest = () => {
             text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
         }
     ]
-
-    const projects = [
+    const mainSocks = [
         {
             img: mainSock1,
             title: 'Снігур, Снічептах!',
@@ -212,11 +213,7 @@ const Metinvest = () => {
             title: 'Снігур, Снічептах!',
             text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
         },
-    ].map( (project, index) => {
-        project.id = index
-        return project
-    })
-
+    ]
     const modalSocks = [
         {sock: modalSock},
         {sock: modalSock},
@@ -229,23 +226,18 @@ const Metinvest = () => {
         {sock: modalSock},
         {sock: modalSock},
     ]
-
     const modalSweets = [
         {sweet: modalDisableSweet},
         {sweet: modalSweet},
         {sweet: modalSweet}
     ]
-
-    const onModalMessageClick = (projectId) => {
-        // fixme projectId always == 1
-
-        // todo check getVotesLeft()
+    const onModalMessageClick = () => {
+        makeVote()
 
         setModalMessageYesActive(false)
         setVotingInProcess(true)
+        makeVote().then(async () => {
 
-        makeVote(projectId).then(async () => {
-            registerVoteMadeLocally()
         }).catch(async (e) => {
             console.log(e)
             setVoteError(true)
@@ -256,230 +248,229 @@ const Metinvest = () => {
         })
 
     }
-    // const resultsArray = [
-    //     {img: mainSock1, votes: 523, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock2, votes: 223, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock3, votes: 45, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock4, votes: 44, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock5, votes: 12, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock6, votes: 8, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock7, votes: 4, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock8, votes: 2, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock9, votes: 1, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock10, votes: 0, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'}
-    // ]
+    const resultsArray = [
+        {img: mainSock1, votes: 523, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+        {img: mainSock2, votes: 223, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+        {img: mainSock3, votes: 45, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+        {img: mainSock4, votes: 44, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+        {img: mainSock5, votes: 12, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+        {img: mainSock6, votes: 8, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+        {img: mainSock7, votes: 4, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+        {img: mainSock8, votes: 2, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+        {img: mainSock9, votes: 1, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+        {img: mainSock10, votes: 0, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'}
+    ]
 
-    const makeVote = async (projectId) => {
-        // await delay(3000)
-        const result = await fetch(serverUrl + `vote?userId=${userId}&projectId=${projectId}`, {
-            method: "post"
-        })
-
-        if (!result.ok) {
-            throw new Error("Cannot vote")
-        }
-    }
-
-    const [prev, setPrev] = useState(false)
-    const [next, setNext] = useState(false)
-    let position = 0
-    const slider = useRef(null)
-    const prevHandler = () => {
-        position += 530
-        slider.current.childNodes.forEach((slide) => {
-            slide.style = `transform: translateX(${position}px)`
-        })
-    }
-    const nextHandler = () => {
-        position -= 530
-        slider.current.childNodes.forEach((slide) => {
-            slide.style = `transform: translateX(${position}px)`
-        })
+    const makeVote = async () => {
+        await delay(3000)
     }
 
     const onSockClick = () => {
         setSockModalActive(true)
     }
 
-    useEffect(() => {
-        if (timeOut) {
-            fetch(serverUrl + `votes`).then(async (response) => {
-                if (response.ok) {
-                    const data = await response.json()
-                    const votesByProject = {}
-
-                    data.forEach( (item) => {
-                        votesByProject[item.project] = item.votes
-                    })
-
-                    setResultsArray(projects.map( project => {
-                        return { ...project, votes: votesByProject[project.id] ?? 0 }
-                    }))
-                }
-            })
+    const getRemainingTimeUntilMsTimestamp = (timestampMs) => {
+        const timestampDayjs = dayjs(timestampMs)
+        const nowDayjs = dayjs()
+        return {
+            days: getRemainingDays(nowDayjs, timestampDayjs),
+            hours: getRemainingHours(nowDayjs, timestampDayjs),
+            minutes: getRemainingMinutes(nowDayjs, timestampDayjs)
         }
-    }, [])
+    }
+    const getRemainingMinutes = (nowDayjs, timestampDayjs) => {
+        const minutes = timestampDayjs.diff(nowDayjs, 'minutes') % 60
+        return padWithZeros(minutes, 2)
+    }
+    const getRemainingHours = (nowDayjs, timestampDayjs) => {
+        const hours = timestampDayjs.diff(nowDayjs, 'hours') % 24
+        return padWithZeros(hours, 2)
+    }
+    const getRemainingDays = (nowDayjs, timestampDayjs) => {
+        const days = timestampDayjs.diff(nowDayjs, 'days')
+        return days.toString()
+    }
+    const padWithZeros = (number, minLength) => {
+        const numberString = number.toString()
+        if (numberString.length >= minLength) return numberString
+        return "0".repeat(minLength - numberString.length) + numberString
+    }
+    const countdownTimestampMs = new Date('December 14, 2022 00:00:00').getTime()
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            updateRemainingTime(countdownTimestampMs)
+        }, 1000)
+        return () => clearInterval(intervalId)
+    }, [countdownTimestampMs])
+    const updateRemainingTime = (countdown) => {
+        setRemainingTime(getRemainingTimeUntilMsTimestamp(countdown))
+    }
 
     return (
         <div className="main">
-            { !timeOut ? <>
-                <div className="main-section" style={{backgroundImage: `url(${mainSectionBg})`}}>
-                    <div className="main-head">
-                        <img src={logo} alt="Logo"/>
-                        <div className="main-sounds">
-                            <img src={soundFire} alt="Fire"/>
-                            <img src={soundMusic} alt="Music"/>
-                            <img src={soundCat} alt="Cat"/>
-                            <img src={soundQuestion} alt="Question"/>
-                        </div>
-                    </div>
-                    <div className="main-timer">
-                        time
-                    </div>
-                    <div className="main-socks">
-                        {projects.map((s) => <MainSock title={s.title} text={s.text} img={s.img}
-                                                       setSockModalActive={setSockModalActive}/>)}
-                    </div>
-                    <div className="main-fire-cat">
-                        <div className="main-fire"></div>
-                        <div className="main-cat"></div>
+            <div className="main-section" style={{backgroundImage: `url(${mainSectionBg})`}}>
+                <div className="main-head">
+                    <img src={logo} alt="Logo"/>
+                    <div className="main-sounds">
+                        <img src={soundFire} alt="Fire"/>
+                        <img src={soundMusic} alt="Music"/>
+                        <img src={soundCat} alt="Cat"/>
+                        <img src={soundQuestion} alt="Question"/>
                     </div>
                 </div>
-                <div className={sockModalActive ? 'modal active' : 'modal'}>
-                    <div className="modal-window-container">
-                        <div className="modal-head">
-                            <div className="modal-socks-container">
-                                <div className="modal-prev"><img src={modalPrev} alt="Previous slide"/></div>
-                                <div className="modal-socks">
-                                    {modalSocks.map((i) => <img className="modal-sock" src={i.sock} alt="Sock"/>)}
-                                </div>
-                                <div className="modal-next"><img src={modalNext} alt="Next slide"/></div>
+                <div className="main-timer">
+                    <div>
+                        <span className="time-days">{remainingTime.days}:</span>
+                        <span className="time-days-text">днів</span>
+                    </div>
+                    <div>
+                        <span className="time-hours">{remainingTime.hours}:</span>
+                        <span className="time-hours-text">годин</span>
+                    </div>
+                    <div>
+                        <span className="time-minutes">{remainingTime.minutes}</span>
+                        <span className="time-minutes-text">хвилин</span>
+                    </div>
+                </div>
+                <div className="main-socks">
+                    {mainSocks.map((s) => <MainSock title={s.title} text={s.text} img={s.img}
+                                                    setSockModalActive={setSockModalActive}/>)}
+                </div>
+                <div className="main-fire-cat">
+                    <div className="main-fire"></div>
+                    <div className="main-cat"></div>
+                </div>
+            </div>
+            <div className={sockModalActive ? 'modal active' : 'modal'}>
+                <div className="modal-window-container">
+                    <div className="modal-head">
+                        <div className="modal-socks-container">
+                            <div className="modal-prev"><img src={modalPrev} alt="Previous slide"/></div>
+                            <div className="modal-socks">
+                                {modalSocks.map((i) => <img className="modal-sock" src={i.sock} alt="Sock"/>)}
                             </div>
-                            <div className="modal-left-votes">
-                                <p className="modal-left-vote-text">У вас залишилось голосів</p>
-                                <div className="modal-left-vote-imgs">
-                                    {modalSweets.map((s) => <img src={s.sweet} alt="Sweet"/>)}
-                                </div>
-                            </div>
-                            <button className="btn-close" onClick={() => setSockModalActive(false)}><img src={closeBtn1}
-                                                                                                         alt="To Close"/>
-                            </button>
+                            <div className="modal-next"><img src={modalNext} alt="Next slide"/></div>
                         </div>
-                        <div className="modal-window">
-                            <h1 className='modal-title'>Снігур, Снічептах!</h1>
-                            <img className='modal-img' src={modalImage} alt="Modal Image"/>
-                            <p className='modal-desc'>
-                                Марко та Оленка бавилися у сніжки, ліпили снігових баб і цілі фортеці.
-                                З ними часто бавився Жартун з Найвеселішої країни Найсмішніших жартунів
-                                (чи як там вона називається) та Сонячний Промінчик. Кузь та Русалоньки зараз спали аж до
-                                літа. <br/><br/>
-                                Інколи він перетворювався на вовка і бігав зі зграєю, інколи – на ширяючого в піднебессі
-                                орла.
-                                А зараз от, він вирішив спробувати прожити зиму снігуром. Хоч
-                            </p>
-                            <h3 className='modal-subtitle'>Марко та Оленка бавилися у сніжки</h3>
-                            <div className='modal-btns-wrapper'>
-                                <div className='modal-btns'>
-                                    <a href="#" className="modal-btn-one" onClick={() => setModalMessageActive(true)}>віддати
-                                        свій голос</a>
-                                    <div
-                                        className={modalMessageActive ? 'modal-btns-message-wrapper active' : 'modal-btns-message-wrapper'}
-                                        style={{backgroundImage: `url(${modalMessageBg}`}}>
-                                        <div className="modal-btns-message">
-                                            <img className='modal-dots' src={dots} alt="Dots"/>
-                                            <div
-                                                className={modalMessageYesActive ? '' : 'modal-message-content-disabled'}>
-                                                <p className="modal-btns-message-text">Підтвердіть своє бажання
-                                                    натиснувши
-                                                    “ТАК”</p>
-                                                <div className="modal-btns-message-btns">
-                                                    <a href="#" className="modal-btns-message-btn"
-                                                       onClick={() => onModalMessageClick(1)}>так</a>
-                                                    <a href="#" className="modal-btns-message-btn"
-                                                       onClick={() => setModalMessageActive(false)}>ні</a>
-                                                </div>
-                                            </div>
-                                            <div className={votingInProcess ? 'preloader active' : 'preloader'}>
-                                                <div className="loader"></div>
-                                            </div>
-                                            <div
-                                                className={modalMessageThankYouActive ? '' : 'modal-message-content-disabled'}>
-                                                <p className="modal-btns-message-text">Дякуємо!</p>
-                                            </div>
-                                            <div className={voteError ? '' : 'modal-message-content-disabled'}>
-                                                <p className="modal-btns-message-text">Что-то пошло не так <br/>Повторите
-                                                    попытку позже</p>
+                        <div className="modal-left-votes">
+                            <p className="modal-left-vote-text">У вас залишилось голосів</p>
+                            <div className="modal-left-vote-imgs">
+                                {modalSweets.map((s) => <img src={s.sweet} alt="Sweet"/>)}
+                            </div>
+                        </div>
+                        <button className="btn-close" onClick={() => setSockModalActive(false)}><img src={closeBtn1}
+                                                                                                     alt="To Close"/>
+                        </button>
+                    </div>
+                    <div className="modal-window">
+                        <h1 className='modal-title'>Снігур, Снічептах!</h1>
+                        <img className='modal-img' src={modalImage} alt="Modal Image"/>
+                        <p className='modal-desc'>
+                            Марко та Оленка бавилися у сніжки, ліпили снігових баб і цілі фортеці.
+                            З ними часто бавився Жартун з Найвеселішої країни Найсмішніших жартунів
+                            (чи як там вона називається) та Сонячний Промінчик. Кузь та Русалоньки зараз спали аж до
+                            літа. <br/><br/>
+                            Інколи він перетворювався на вовка і бігав зі зграєю, інколи – на ширяючого в піднебессі
+                            орла.
+                            А зараз от, він вирішив спробувати прожити зиму снігуром. Хоч
+                        </p>
+                        <h3 className='modal-subtitle'>Марко та Оленка бавилися у сніжки</h3>
+                        <div className='modal-btns-wrapper'>
+                            <div className='modal-btns'>
+                                <a href="#" className="modal-btn-one" onClick={() => setModalMessageActive(true)}>віддати
+                                    свій голос</a>
+                                <div
+                                    className={modalMessageActive ? 'modal-btns-message-wrapper active' : 'modal-btns-message-wrapper'}
+                                    style={{backgroundImage: `url(${modalMessageBg}`}}>
+                                    <div className="modal-btns-message">
+                                        <img className='modal-dots' src={dots} alt="Dots"/>
+                                        <div className={modalMessageYesActive ? '' : 'modal-message-content-disabled'}>
+                                            <p className="modal-btns-message-text">Підтвердіть своє бажання натиснувши
+                                                “ТАК”</p>
+                                            <div className="modal-btns-message-btns">
+                                                <a href="#" className="modal-btns-message-btn"
+                                                   onClick={onModalMessageClick}>так</a>
+                                                <a href="#" className="modal-btns-message-btn"
+                                                   onClick={() => setModalMessageActive(false)}>ні</a>
                                             </div>
                                         </div>
+                                        <div className={votingInProcess ? 'preloader active' : 'preloader'}>
+                                            <div className="loader"></div>
+                                        </div>
+                                        <div
+                                            className={modalMessageThankYouActive ? '' : 'modal-message-content-disabled'}>
+                                            <p className="modal-btns-message-text">Дякуємо!</p>
+                                        </div>
+                                        <div className={voteError ? '' : 'modal-message-content-disabled'}>
+                                            <p className="modal-btns-message-text">Что-то пошло не так <br/>Повторите
+                                                попытку позже</p>
+                                        </div>
                                     </div>
-                                    <a href='#' className="modal-btn-two">відправити гроші</a>
                                 </div>
-                                <div className='modal-qr-code'>
-                                    <img src={qr} alt="QR Code"/>
-                                    <p className="modal-qr-text">Марко та Оленка</p>
-                                </div>
+                                <a href='#' className="modal-btn-two">відправити гроші</a>
+                            </div>
+                            <div className='modal-qr-code'>
+                                <img src={qr} alt="QR Code"/>
+                                <p className="modal-qr-text">Марко та Оленка</p>
                             </div>
                         </div>
                     </div>
-                    <div className="overlay"></div>
                 </div>
-                <div className={firstModalActive ? "modal-first" : "modal-first disabled"}>
-                    <div className="modal-first-container">
-                        <div className="modal-first-window">
-                            <div className="modal-first-wrapper">
-                                <h2 className='modal-first-title'>Ласкаво просимо до онлайн порталу чарівного
-                                    благодійного
-                                    святкового свята!</h2>
+                <div className="overlay"></div>
+            </div>
+            <div className={firstModalActive ? "modal-first" : "modal-first disabled"}>
+                <div className="modal-first-container">
+                    <div className="modal-first-window">
+                        <div className="modal-first-wrapper">
+                            <h2 className='modal-first-title'>Ласкаво просимо до онлайн порталу чарівного благодійного
+                                святкового свята!</h2>
+                        </div>
+                        <img className="modal-first-image" src={santa1} alt="Santa"/>
+                        <div className="modal-first-wrapper">
+                            <p className='modal-first-text'>
+                                Марко та Оленка бавилися у сніжки,
+                                ліпили снігових баб і цілі фортеці.
+                                З ними часто бавився Жартун з Найвеселішої країни
+                                Найсмішніших жартунів (чи як там вона називається)
+                                та Сонячний Промінчик. Кузь та Русалоньки зараз спали аж до літа.
+                            </p>
+                            <div className="first-modal-socks">
+                                {firstModalSock.map((s) => <FirstModalSock img={s.img}/>)}
                             </div>
-                            <img className="modal-first-image" src={santa1} alt="Santa"/>
-                            <div className="modal-first-wrapper">
-                                <p className='modal-first-text'>
-                                    Марко та Оленка бавилися у сніжки,
-                                    ліпили снігових баб і цілі фортеці.
-                                    З ними часто бавився Жартун з Найвеселішої країни
-                                    Найсмішніших жартунів (чи як там вона називається)
-                                    та Сонячний Промінчик. Кузь та Русалоньки зараз спали аж до літа.
-                                </p>
-                                <div className="first-modal-socks">
-                                    {firstModalSock.map((s) => <FirstModalSock img={s.img}/>)}
-                                </div>
-                                <p className="modal-first-text2">
-                                    Інколи він перетворювався на вовка і бігав зі зграєю,
-                                    інколи – на ширяючого в піднебессі орла. А зараз от,
-                                    він вирішив спробувати прожити зиму снігуром. Хоч чарівникові й було
-                                    сто років, але він любив побавитися, посміятися та поганяти за сніжинками.
-                                </p>
-                                <p className="modal-first-text3">Кузь та Русалоньки зараз спали аж до літа.</p>
-                                <a href="#" className="modal-first-button" onClick={() => setFirstModalActive(false)}>зробити
-                                    чудо</a>
-                            </div>
-                        </div>
-                    </div>
-                    <button className="modal-first-btn-close" onClick={() => setFirstModalActive(false)}>
-                        <img src={closeBtn1} alt="Close"/>
-                    </button>
-                    <div className="overlay overlay-first"
-                         style={{background: `url(${firstModalBg}) no-repeat center center / cover`}}></div>
-                </div>
-            </> : <>
-                <div className="results" style={{backgroundImage: `url(${resultsBg})`}}>
-                    <div className="result-logo">
-                        <img src={logo} alt="Logo"/>
-                    </div>
-                    <div className="results-content">
-                        <h1 className="results-content-title">Результати голосування</h1>
-                        <div className="results-content-wrapper">
-                            {resultsArray.map((r) => <ResultItem img={r.img} votes={r.votes} title={r.title}/>)}
-                        </div>
-                        <div>
-                            <img className="results-christmas-tree" src={christmasTree} alt="Christmas Tree"/>
-                            <img className="results-floor" src={floor} alt="floor"/>
-                            <img className="results-presents" src={presents} alt="presents"/>
-                            <img className="results-armchair" src={armchair} alt="armchair"/>
+                            <p className="modal-first-text2">
+                                Інколи він перетворювався на вовка і бігав зі зграєю,
+                                інколи – на ширяючого в піднебессі орла. А зараз от,
+                                він вирішив спробувати прожити зиму снігуром. Хоч чарівникові й було
+                                сто років, але він любив побавитися, посміятися та поганяти за сніжинками.
+                            </p>
+                            <p className="modal-first-text3">Кузь та Русалоньки зараз спали аж до літа.</p>
+                            <a href="#" className="modal-first-button" onClick={() => setFirstModalActive(false)}>зробити
+                                чудо</a>
                         </div>
                     </div>
                 </div>
-            </>}
+                <button className="modal-first-btn-close" onClick={() => setFirstModalActive(false)}>
+                    <img src={closeBtn1} alt="Close"/>
+                </button>
+                <div className="overlay overlay-first"
+                     style={{background: `url(${firstModalBg}) no-repeat center center / cover`}}></div>
+            </div>
+            {/*<div className="results" style={{backgroundImage: `url(${resultsBg})`}}>
+                <div className="result-logo">
+                    <img src={logo} alt="Logo"/>
+                </div>
+                <div className="results-content">
+                    <h1 className="results-content-title">Результати голосування</h1>
+                    <div className="results-content-wrapper">
+                        {resultsArray.map((r) => <ResultItem img={r.img} votes={r.votes} title={r.title} />)}
+                    </div>
+                    <div>
+                        <img className="results-christmas-tree" src={christmasTree} alt="Christmas Tree"/>
+                        <img className="results-floor" src={floor} alt="floor"/>
+                        <img className="results-presents" src={presents} alt="presents"/>
+                        <img className="results-armchair" src={armchair} alt="armchair"/>
+                    </div>
+                </div>
+            </div>*/}
         </div>
     )
 }
@@ -535,30 +526,4 @@ const ResultItem = (props) => {
 
 async function delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-function getUserId() {
-    const id = localStorage.getItem("id")
-    if (!id) {
-        let date = new Date();
-        const newId = date.getTime() * 1000 + date.getMilliseconds()
-        localStorage.setItem("id", newId)
-        return newId.toString()
-    } else {
-        return id
-    }
-}
-
-function getVotesLeft() {
-    const votesLeft = localStorage.getItem("votesLeft")
-    if (!votesLeft) {
-        return 3
-    } else {
-        return votesLeft
-    }
-}
-
-function registerVoteMadeLocally() {
-    const votesLeft = getVotesLeft()
-    localStorage.setItem("votesLeft", votesLeft - 1)
 }
