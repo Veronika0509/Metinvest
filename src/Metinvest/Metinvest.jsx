@@ -49,11 +49,16 @@ import floor from '../img/assets/floor.jpg'
 import presents from '../img/assets/presents.png'
 import armchair from '../img/assets/armchair.png'
 
+// const serverUrl = "http://localhost:3003/"
+const serverUrl = "https://metinvest-app.herokuapp.com/"
+const userId = getUserId()
+
 const defaultRemainingTime = {
     days: '00',
     hours: '00',
     minutes: '00'
 }
+const countdownTimestampMs = new Date('December 14, 2022 00:00:00').getTime()
 
 const Metinvest = () => {
 
@@ -65,6 +70,10 @@ const Metinvest = () => {
     const [votingInProcess, setVotingInProcess] = useState(false)
     const [voteError, setVoteError] = useState(false)
     const [remainingTime, setRemainingTime] = useState(defaultRemainingTime)
+    const [timeOut, setTimeOut] = useState((countdownTimestampMs - (new Date()).getTime()) < 0)
+    // const [timeOut, setTimeOut] = useState(true)
+    const [resultsArray, setResultsArray] = useState([])
+
 
     const [slides, setSlider] = useState([
         {
@@ -162,7 +171,8 @@ const Metinvest = () => {
             text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
         }
     ]
-    const mainSocks = [
+
+    const projects = [
         {
             img: mainSock1,
             title: 'Снігур, Снічептах!',
@@ -213,7 +223,11 @@ const Metinvest = () => {
             title: 'Снігур, Снічептах!',
             text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
         },
-    ]
+    ].map( (project, index) => {
+        project.id = index
+        return project
+    })
+
     const modalSocks = [
         {sock: modalSock},
         {sock: modalSock},
@@ -226,18 +240,36 @@ const Metinvest = () => {
         {sock: modalSock},
         {sock: modalSock},
     ]
+
     const modalSweets = [
         {sweet: modalDisableSweet},
         {sweet: modalSweet},
         {sweet: modalSweet}
     ]
-    const onModalMessageClick = () => {
-        makeVote()
+
+    const onModalMessageClick = (projectId) => {
+        // fixme projectId always == 1
+
+        if (getVotesLeft() <= 0) {
+            // todo what to do in case of no more votes?
+            console.error("No more votes lest")
+            setVoteError(true)
+            return
+        }
+
+        if (isProjectAlreadyVoted(projectId) <= 0) {
+            // todo show message about double vote
+            // better hide voting button for voted projects
+            console.warn("Already voted")
+            setVoteError(true) // ??
+            return
+        }
 
         setModalMessageYesActive(false)
         setVotingInProcess(true)
-        makeVote().then(async () => {
 
+        makeVote(projectId).then(async () => {
+            registerVoteMadeLocally(projectId)
         }).catch(async (e) => {
             console.log(e)
             setVoteError(true)
@@ -248,21 +280,28 @@ const Metinvest = () => {
         })
 
     }
-    const resultsArray = [
-        {img: mainSock1, votes: 523, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-        {img: mainSock2, votes: 223, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-        {img: mainSock3, votes: 45, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-        {img: mainSock4, votes: 44, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-        {img: mainSock5, votes: 12, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-        {img: mainSock6, votes: 8, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-        {img: mainSock7, votes: 4, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-        {img: mainSock8, votes: 2, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-        {img: mainSock9, votes: 1, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-        {img: mainSock10, votes: 0, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'}
-    ]
+    // const resultsArray = [
+    //     {img: mainSock1, votes: 523, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+    //     {img: mainSock2, votes: 223, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+    //     {img: mainSock3, votes: 45, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+    //     {img: mainSock4, votes: 44, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+    //     {img: mainSock5, votes: 12, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+    //     {img: mainSock6, votes: 8, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+    //     {img: mainSock7, votes: 4, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+    //     {img: mainSock8, votes: 2, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+    //     {img: mainSock9, votes: 1, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
+    //     {img: mainSock10, votes: 0, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'}
+    // ]
 
-    const makeVote = async () => {
-        await delay(3000)
+    const makeVote = async (projectId) => {
+        // await delay(3000)
+        const result = await fetch(serverUrl + `vote?userId=${userId}&projectId=${projectId}`, {
+            method: "post"
+        })
+
+        if (!result.ok) {
+            throw new Error("Cannot vote")
+        }
     }
 
     const onSockClick = () => {
@@ -295,19 +334,40 @@ const Metinvest = () => {
         if (numberString.length >= minLength) return numberString
         return "0".repeat(minLength - numberString.length) + numberString
     }
-    const countdownTimestampMs = new Date('December 14, 2022 00:00:00').getTime()
+
     useEffect(() => {
         const intervalId = setInterval(() => {
             updateRemainingTime(countdownTimestampMs)
         }, 1000)
         return () => clearInterval(intervalId)
     }, [countdownTimestampMs])
+
+    useEffect(() => {
+        if (timeOut) {
+            fetch(serverUrl + `votes`).then(async (response) => {
+                if (response.ok) {
+                    const data = await response.json()
+                    const votesByProject = {}
+
+                    data.forEach( (item) => {
+                        votesByProject[item.project] = item.votes
+                    })
+
+                    setResultsArray(projects.map( project => {
+                        return { ...project, votes: votesByProject[project.id] ?? 0 }
+                    }))
+                }
+            })
+        }
+    }, [])
+
     const updateRemainingTime = (countdown) => {
         setRemainingTime(getRemainingTimeUntilMsTimestamp(countdown))
     }
 
     return (
         <div className="main">
+            { !timeOut ? <>
             <div className="main-section" style={{backgroundImage: `url(${mainSectionBg})`}}>
                 <div className="main-head">
                     <img src={logo} alt="Logo"/>
@@ -333,7 +393,7 @@ const Metinvest = () => {
                     </div>
                 </div>
                 <div className="main-socks">
-                    {mainSocks.map((s) => <MainSock title={s.title} text={s.text} img={s.img}
+                    {projects.map((s) => <MainSock title={s.title} text={s.text} img={s.img}
                                                     setSockModalActive={setSockModalActive}/>)}
                 </div>
                 <div className="main-fire-cat">
@@ -388,7 +448,7 @@ const Metinvest = () => {
                                                 “ТАК”</p>
                                             <div className="modal-btns-message-btns">
                                                 <a href="#" className="modal-btns-message-btn"
-                                                   onClick={onModalMessageClick}>так</a>
+                                                   onClick={() => onModalMessageClick(1 /* todo provide project.id */)}>так</a>
                                                 <a href="#" className="modal-btns-message-btn"
                                                    onClick={() => setModalMessageActive(false)}>ні</a>
                                             </div>
@@ -454,23 +514,25 @@ const Metinvest = () => {
                 <div className="overlay overlay-first"
                      style={{background: `url(${firstModalBg}) no-repeat center center / cover`}}></div>
             </div>
-            {/*<div className="results" style={{backgroundImage: `url(${resultsBg})`}}>
-                <div className="result-logo">
-                    <img src={logo} alt="Logo"/>
-                </div>
-                <div className="results-content">
-                    <h1 className="results-content-title">Результати голосування</h1>
-                    <div className="results-content-wrapper">
-                        {resultsArray.map((r) => <ResultItem img={r.img} votes={r.votes} title={r.title} />)}
+            </> : <>
+                <div className="results" style={{backgroundImage: `url(${resultsBg})`}}>
+                    <div className="result-logo">
+                        <img src={logo} alt="Logo"/>
                     </div>
-                    <div>
-                        <img className="results-christmas-tree" src={christmasTree} alt="Christmas Tree"/>
-                        <img className="results-floor" src={floor} alt="floor"/>
-                        <img className="results-presents" src={presents} alt="presents"/>
-                        <img className="results-armchair" src={armchair} alt="armchair"/>
+                    <div className="results-content">
+                        <h1 className="results-content-title">Результати голосування</h1>
+                        <div className="results-content-wrapper">
+                            {resultsArray.map((r) => <ResultItem img={r.img} votes={r.votes} title={r.title}/>)}
+                        </div>
+                        <div>
+                            <img className="results-christmas-tree" src={christmasTree} alt="Christmas Tree"/>
+                            <img className="results-floor" src={floor} alt="floor"/>
+                            <img className="results-presents" src={presents} alt="presents"/>
+                            <img className="results-armchair" src={armchair} alt="armchair"/>
+                        </div>
                     </div>
                 </div>
-            </div>*/}
+            </>}
         </div>
     )
 }
@@ -526,4 +588,35 @@ const ResultItem = (props) => {
 
 async function delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function getUserId() {
+    const id = localStorage.getItem("id")
+    if (!id) {
+        let date = new Date();
+        const newId = date.getTime() * 1000 + date.getMilliseconds()
+        localStorage.setItem("id", newId)
+        return newId.toString()
+    } else {
+        return id
+    }
+}
+
+function getVotesLeft() {
+    const votesLeft = localStorage.getItem("votesLeft")
+    if (!votesLeft) {
+        return 3
+    } else {
+        return votesLeft
+    }
+}
+
+function registerVoteMadeLocally(projectId) {
+    const votesLeft = getVotesLeft()
+    localStorage.setItem("votesLeft", votesLeft - 1)
+    localStorage.setItem(projectId, true)
+}
+
+function isProjectAlreadyVoted(projectId) {
+    return localStorage.getItem(projectId) == true
 }
