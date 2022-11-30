@@ -396,7 +396,8 @@ const Metinvest = () => {
         {sweet: modalSweet}
     ]
 
-    const onModalMessageClick = (projectId) => {
+    const onModalMessageClick = () => {
+        const projectId = sockModalActiveId
         console.log(projectId)
 
         if (getVotesLeft() <= 0) {
@@ -602,7 +603,13 @@ const Metinvest = () => {
                                 </button>
                             </div>
                             <div className="main-slides">
-                                <ModalWindow modalMessageActive={modalMessageActive} setModalMessageActive={setModalMessageActive} modalMessageYesActive={modalMessageYesActive} onModalMessageClick={onModalMessageClick} votingInProcess={votingInProcess} modalMessageThankYouActive={modalMessageThankYouActive} voteError={voteError}/>
+                                <ModalWindow modalMessageActive={modalMessageActive}
+                                             setModalMessageActive={setModalMessageActive}
+                                             modalMessageYesActive={modalMessageYesActive}
+                                             onModalMessageClick={onModalMessageClick}
+                                             votingInProcess={votingInProcess}
+                                             modalMessageThankYouActive={modalMessageThankYouActive}
+                                             voteError={voteError}/>
                             </div>
                         </div>
                         <div className="overlay"></div>
