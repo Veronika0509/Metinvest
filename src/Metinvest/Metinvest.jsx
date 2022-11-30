@@ -64,7 +64,7 @@ const countdownTimestampMs = new Date('December 14, 2022 00:00:00').getTime()
 
 const Metinvest = () => {
 
-    const [sockModalActive, setSockModalActive] = useState(false)
+    const [sockModalActiveId, setSockModalActiveId] = useState()
     const [firstModalActive, setFirstModalActive] = useState(true)
     const [modalMessageActive, setModalMessageActive] = useState(false)
     const [modalMessageYesActive, setModalMessageYesActive] = useState(true)
@@ -226,7 +226,7 @@ const Metinvest = () => {
             text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
         },
     ].map( (project, index) => {
-        project.id = index
+        project.id = index.toString()
         return project
     })
 
@@ -251,19 +251,20 @@ const Metinvest = () => {
 
     const onModalMessageClick = (projectId) => {
         console.log(projectId)
-        // fixme projectId always == 1
 
         if (getVotesLeft() <= 0) {
             // todo what to do in case of no more votes?
             console.error("No more votes lest")
+            setModalMessageYesActive(false)
             setVoteError(true)
             return
         }
 
-        if (isProjectAlreadyVoted(projectId) <= 0) {
+        if (isProjectAlreadyVoted(projectId)) {
             // todo show message about double vote
             // better hide voting button for voted projects
             console.warn("Already voted")
+            setModalMessageYesActive(false)
             setVoteError(true) // ??
             return
         }
@@ -305,10 +306,6 @@ const Metinvest = () => {
         if (!result.ok) {
             throw new Error("Cannot vote")
         }
-    }
-
-    const onSockClick = () => {
-        setSockModalActive(true)
     }
 
     const getRemainingTimeUntilMsTimestamp = (timestampMs) => {
@@ -368,10 +365,6 @@ const Metinvest = () => {
         setRemainingTime(getRemainingTimeUntilMsTimestamp(countdown))
     }
 
-    const mainSockClick = () => {
-        setSockModalActive(true)
-    }
-
     const audioCat = React.createRef()
     const audioFire = React.createRef()
     const onCatClick = () => {
@@ -419,14 +412,15 @@ const Metinvest = () => {
                         </div>
                         <div className="main-socks">
                             {projects.map((s) => <MainSock title={s.title} text={s.text} img={s.img}
-                                                           setSockModalActive={setSockModalActive} id={s.id} mainSockClick={mainSockClick}/>)}
+                                                           setSockModalActiveId={setSockModalActiveId}
+                                                           id={s.id}/>)}
                         </div>
                         <div className="main-fire-cat">
                             <div className="main-fire" onClick={onFireClick}></div>
                             <div className="main-cat" onClick={onCatClick}></div>
                         </div>
                     </div>
-                    <div className={sockModalActive ? 'modal active' : 'modal'}>
+                    <div className={sockModalActiveId ? 'modal active' : 'modal'}>
                         <div className="modal-window-container">
                             <div className="modal-head">
                                 <div className="modal-socks-container">
@@ -442,7 +436,7 @@ const Metinvest = () => {
                                         {modalSweets.map((s) => <img src={s.sweet} alt="Sweet"/>)}
                                     </div>
                                 </div>
-                                <button className="btn-close" onClick={() => setSockModalActive(false)}>
+                                <button className="btn-close" onClick={() => setSockModalActiveId(undefined)}>
                                     <img src={closeBtn1} alt="To Close"/>
                                 </button>
                             </div>
@@ -473,7 +467,7 @@ const Metinvest = () => {
                                                         “ТАК”</p>
                                                     <div className="modal-btns-message-btns">
                                                         <a href="#" className="modal-btns-message-btn"
-                                                           onClick={() => onModalMessageClick()}>так</a>
+                                                           onClick={() => onModalMessageClick(sockModalActiveId)}>так</a>
                                                         <a href="#" className="modal-btns-message-btn"
                                                            onClick={() => setModalMessageActive(false)}>ні</a>
                                                     </div>
@@ -601,7 +595,7 @@ const MainSock = (props) => {
                     <p className="main-sock-desc">{props.text}</p>
                 </div>
             </div>
-            <div className="main-sock" onClick={props.mainSockClick()}>
+            <div className="main-sock" onClick={() => props.setSockModalActiveId(props.id)}>
                 <img src={props.img} alt='Sock'/>
             </div>
         </div>
