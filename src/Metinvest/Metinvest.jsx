@@ -539,7 +539,9 @@ const Metinvest = () => {
         mainSlides.current.childNodes.forEach((slide) => {
             slide.style = `transform: translateX(${position}px)`
         })
-        console.log(sockModalActiveId)
+        setModalMessageThankYouActive(false)
+        setVoteError(false)
+        setModalMessageYesActive(true)
     }
     const onPrevSlideClick = () => {
         setSockModalActiveId((Number(sockModalActiveId) - 1).toString())
@@ -547,7 +549,9 @@ const Metinvest = () => {
         mainSlides.current.childNodes.forEach((slide) => {
             slide.style = `transform: translateX(${position}px)`
         })
-        console.log(sockModalActiveId)
+        setModalMessageThankYouActive(false)
+        setVoteError(false)
+        setModalMessageYesActive(true)
     }
 
     return (
@@ -746,7 +750,6 @@ const ResultItem = (props) => {
 }
 const ModalWindow = (props) => {
     return (
-        <div className="modal-window-wrapper">
             <div className="modal-window">
                 <h1 className='modal-title'>{props.title}</h1>
                 <img className='modal-img' src={props.img} alt="Modal Image"/>
@@ -763,7 +766,7 @@ const ModalWindow = (props) => {
                             style={{backgroundImage: `url(${modalMessageBg}`}}>
                             <div className="modal-btns-message">
                                 <img className='modal-dots' src={dots} alt="Dots"/>
-                                <div className={props.modalMessageYesActive ? '' : 'modal-message-content-disabled'}>
+                                <div className={props.modalMessageYesActive ? 'modal-message' : 'modal-message-content-disabled'}>
                                     <p className="modal-btns-message-text">Підтвердіть своє бажання натиснувши
                                         “ТАК”</p>
                                     <div className="modal-btns-message-btns">
@@ -794,7 +797,6 @@ const ModalWindow = (props) => {
                     </div>
                 </div>
             </div>
-        </div>
     )
 }
 

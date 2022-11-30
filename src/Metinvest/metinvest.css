@@ -500,8 +500,8 @@ img {
     position: absolute;
     width: 311px;
     height: 155px;
-    top: 487px;
-    left: 222px;
+    margin-top: -221px;
+    margin-left: 222px;
     display: none;
 }
 .modal-btns-message-wrapper.active {
@@ -752,9 +752,8 @@ img {
     overflow-x: hidden;
     background: #4D8650;
     border: 17px dashed #FF2F2F;
-    transition: 1s;
 }
 .modal-window {
     min-width: 1024px;
-    transition: 1s;
+    transition: .5s;
 }
