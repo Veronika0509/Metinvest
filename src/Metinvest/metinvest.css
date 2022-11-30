@@ -757,5 +757,4 @@ img {
 .modal-window {
     min-width: 1024px;
     transition: 1s;
-    transform: translateX(-2048px);
 }

@@ -534,19 +534,20 @@ const Metinvest = () => {
 
     const mainSlides = React.useRef(null)
     const onNextSlideClick = () => {
-
+        setSockModalActiveId((Number(sockModalActiveId) + 1).toString())
         setPosition(position - 1024)
         mainSlides.current.childNodes.forEach((slide) => {
             slide.style = `transform: translateX(${position}px)`
         })
-        console.log(position)
+        console.log(sockModalActiveId)
     }
     const onPrevSlideClick = () => {
+        setSockModalActiveId((Number(sockModalActiveId) - 1).toString())
         setPosition(position + 1024)
         mainSlides.current.childNodes.forEach((slide) => {
             slide.style = `transform: translateX(${position}px)`
         })
-        console.log(position)
+        console.log(sockModalActiveId)
     }
 
     return (
