@@ -50,6 +50,15 @@ import presents from '../img/assets/presents.png'
 import armchair from '../img/assets/armchair.png'
 import myau from '../audio/myau.mp3'
 import fire from '../audio/fire.mp3'
+import tree from '../audio/tree.mp3'
+import Slide1 from '../img/slidesImages/slide1.jpeg'
+import Slide3 from '../img/slidesImages/slide3.jpeg'
+import Slide4 from '../img/slidesImages/slide4.jpeg'
+import Slide5 from '../img/slidesImages/slide5.jpeg'
+import Slide6 from '../img/slidesImages/slide6.jpeg'
+import Slide7 from '../img/slidesImages/slide7.jpeg'
+import Slide8 from '../img/slidesImages/slide8.jpeg'
+import Slide10 from '../img/slidesImages/slide10.jpeg'
 
 // const serverUrl = "http://localhost:3003/"
 const serverUrl = "https://metinvest-app.herokuapp.com/"
@@ -177,55 +186,55 @@ const Metinvest = () => {
     const projects = [
         {
             img: mainSock1,
-            title: 'Снігур, Снічептах!',
-            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+            title: 'Кімната, сповнена почуттів',
+            shortText: 'Обладнання для спеціалізованої сенсорної кімнати для Центру реабілітації дітей з інвалідністю в Запоріжжі.'
         },
         {
             img: mainSock2,
-            title: 'Снігур, Снічептах!',
-            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+            title: 'Новорічний затишок',
+            shortText: 'Допомога родині з п’яти  дітей-сиріт із Запорізької області',
         },
         {
             img: mainSock3,
-            title: 'Снігур, Снічептах!',
-            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+            title: '“Сонячна” мрія',
+            shortText: 'Реабілітаційна поїздка для криворізьких дітей із синдромом Дауна.',
         },
         {
             img: mainSock4,
-            title: 'Снігур, Снічептах!',
-            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+            title: 'Чудо-піч для бабусь і дідусів',
+            shortText: 'Пароконвектомати для двох будинків милосердя у Кривому Розі, де загалом проживає понад сто людей похилого віку.',
         },
         {
             img: mainSock5,
-            title: 'Снігур, Снічептах!',
-            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+            title: 'Маленьке диво великій родині',
+            shortText: 'Допомога родині з десятьма дітьми у місті Покровськ',
         },
         {
             img: mainSock6,
-            title: 'Снігур, Снічептах!',
-            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+            title: 'Дім далеко від дому',
+            shortText: 'Допомога родині із вісьма дітьми з Покровська',
         },
         {
             img: mainSock7,
-            title: 'Снігур, Снічептах!',
-            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+            title: 'Диво для родини захисника',
+            shortText: 'Допомога багатодітній родині із дев’ятьма дітьми із Маріуполя.',
         },
         {
             img: mainSock8,
-            title: 'Снігур, Снічептах!',
-            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+            title: 'Доки тато в ЗСУ!',
+            shortText: 'Допомога багатодітній родині із Маріуполя, що зараз перебуває у Новомосковську',
         },
         {
             img: mainSock9,
-            title: 'Снігур, Снічептах!',
-            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+            title: 'Майстерня для маленьких митців',
+            shortText: 'Обладнання творчої майстерні для спеціалізованої школи “Гармонія” у місті Кам’янське.',
         },
         {
             img: mainSock10,
-            title: 'Снігур, Снічептах!',
-            text: 'Снігур, насправді, Снічептах – сторічний чаклун, якому набридло людське товариство і він подався до лісу, вивчати тварин.'
+            title: 'Причіп новорічних подарунків',
+            shortText: 'Допомога багатодітній родині з Авдіївки.',
         },
-    ].map( (project, index) => {
+    ].map((project, index) => {
         project.id = index
         return project
     })
@@ -256,7 +265,7 @@ const Metinvest = () => {
         if (getVotesLeft() <= 0) {
             // todo what to do in case of no more votes?
             console.error("No more votes lest")
-            setVoteError(true)
+            onVoteError()
             return
         }
 
@@ -264,7 +273,7 @@ const Metinvest = () => {
             // todo show message about double vote
             // better hide voting button for voted projects
             console.warn("Already voted")
-            setVoteError(true) // ??
+            onVoteError()
             return
         }
 
@@ -275,13 +284,18 @@ const Metinvest = () => {
             registerVoteMadeLocally(projectId)
         }).catch(async (e) => {
             console.log(e)
-            setVoteError(true)
+            onVoteError(e)
         }).finally(() => {
             setVotingInProcess(false)
             setModalMessageThankYouActive(true)
             setTimeout(() => setModalMessageActive(false), 3000)
         })
 
+    }
+    const onVoteError = () => {
+        setModalMessageYesActive(false)
+        setVoteError(true)
+        setTimeout(() => setModalMessageActive(false), 5000)
     }
     // const resultsArray = [
     //     {img: mainSock1, votes: 523, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
@@ -305,10 +319,6 @@ const Metinvest = () => {
         if (!result.ok) {
             throw new Error("Cannot vote")
         }
-    }
-
-    const onSockClick = () => {
-        setSockModalActive(true)
     }
 
     const getRemainingTimeUntilMsTimestamp = (timestampMs) => {
@@ -352,12 +362,12 @@ const Metinvest = () => {
                     const data = await response.json()
                     const votesByProject = {}
 
-                    data.forEach( (item) => {
+                    data.forEach((item) => {
                         votesByProject[item.project] = item.votes
                     })
 
-                    setResultsArray(projects.map( project => {
-                        return { ...project, votes: votesByProject[project.id] ?? 0 }
+                    setResultsArray(projects.map(project => {
+                        return {...project, votes: votesByProject[project.id] ?? 0}
                     }))
                 }
             })
@@ -367,33 +377,37 @@ const Metinvest = () => {
     const updateRemainingTime = (countdown) => {
         setRemainingTime(getRemainingTimeUntilMsTimestamp(countdown))
     }
-
-    const mainSockClick = () => {
-        setSockModalActive(true)
-    }
-
     const audioCat = React.createRef()
     const audioFire = React.createRef()
+    const audioTree = React.createRef()
     const onCatClick = () => {
         audioCat.current.play()
     }
     const onFireClick = () => {
         audioFire.current.play()
     }
+    const onTreeClick = () => {
+        audioTree.current.play()
+    }
 
     return (
         <div>
             <audio ref={audioCat}>
-                <source src={myau} type="audio/mpeg" />
+                <source src={myau} type="audio/mpeg"/>
             </audio>
             <audio ref={audioFire}>
-                <source src={fire} type="audio/mpeg" />
+                <source src={fire} type="audio/mpeg"/>
+            </audio>
+            <audio ref={audioTree}>
+                <source src={tree} type="audio/mpeg"/>
             </audio>
             <div className="main">
-                { !timeOut ? <>
+                {!timeOut ? <>
                     <div className="main-section" style={{backgroundImage: `url(${mainSectionBg})`}}>
-                        <div className="main-christmas-tree"></div>
-                        <div className="main-christmas-tree-2"></div>
+                        <div className="main-christmas-tree-wrapper" onClick={onTreeClick}>
+                            <div className="main-christmas-tree"></div>
+                            <div className="main-christmas-tree-2"></div>
+                        </div>
                         <div className="main-head">
                             <img src={logo} alt="Logo"/>
                             <div className="main-sounds">
@@ -418,8 +432,8 @@ const Metinvest = () => {
                             </div>
                         </div>
                         <div className="main-socks">
-                            {projects.map((s) => <MainSock title={s.title} text={s.text} img={s.img}
-                                                           setSockModalActive={setSockModalActive} id={s.id} mainSockClick={mainSockClick}/>)}
+                            {projects.map((s) => <MainSock title={s.title} text={s.shortText} img={s.img}
+                                                           setSockModalActive={setSockModalActive} id={s.id}/>)}
                         </div>
                         <div className="main-fire-cat">
                             <div className="main-fire" onClick={onFireClick}></div>
@@ -446,58 +460,8 @@ const Metinvest = () => {
                                     <img src={closeBtn1} alt="To Close"/>
                                 </button>
                             </div>
-                            <div className="modal-window">
-                                <h1 className='modal-title'>Снігур, Снічептах!</h1>
-                                <img className='modal-img' src={modalImage} alt="Modal Image"/>
-                                <p className='modal-desc'>
-                                    Марко та Оленка бавилися у сніжки, ліпили снігових баб і цілі фортеці.
-                                    З ними часто бавився Жартун з Найвеселішої країни Найсмішніших жартунів
-                                    (чи як там вона називається) та Сонячний Промінчик. Кузь та Русалоньки зараз спали аж до
-                                    літа. <br/><br/>
-                                    Інколи він перетворювався на вовка і бігав зі зграєю, інколи – на ширяючого в піднебессі
-                                    орла.
-                                    А зараз от, він вирішив спробувати прожити зиму снігуром. Хоч
-                                </p>
-                                <h3 className='modal-subtitle'>Марко та Оленка бавилися у сніжки</h3>
-                                <div className='modal-btns-wrapper'>
-                                    <div className='modal-btns'>
-                                        <a href="#" className="modal-btn-one" onClick={() => setModalMessageActive(true)}>віддати
-                                            свій голос</a>
-                                        <div
-                                            className={modalMessageActive ? 'modal-btns-message-wrapper active' : 'modal-btns-message-wrapper'}
-                                            style={{backgroundImage: `url(${modalMessageBg}`}}>
-                                            <div className="modal-btns-message">
-                                                <img className='modal-dots' src={dots} alt="Dots"/>
-                                                <div className={modalMessageYesActive ? '' : 'modal-message-content-disabled'}>
-                                                    <p className="modal-btns-message-text">Підтвердіть своє бажання натиснувши
-                                                        “ТАК”</p>
-                                                    <div className="modal-btns-message-btns">
-                                                        <a href="#" className="modal-btns-message-btn"
-                                                           onClick={() => onModalMessageClick()}>так</a>
-                                                        <a href="#" className="modal-btns-message-btn"
-                                                           onClick={() => setModalMessageActive(false)}>ні</a>
-                                                    </div>
-                                                </div>
-                                                <div className={votingInProcess ? 'preloader active' : 'preloader'}>
-                                                    <div className="loader"></div>
-                                                </div>
-                                                <div
-                                                    className={modalMessageThankYouActive ? '' : 'modal-message-content-disabled'}>
-                                                    <p className="modal-btns-message-text">Дякуємо!</p>
-                                                </div>
-                                                <div className={voteError ? '' : 'modal-message-content-disabled'}>
-                                                    <p className="modal-btns-message-text">Что-то пошло не так <br/>Повторите
-                                                        попытку позже</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <a href='#' className="modal-btn-two">відправити гроші</a>
-                                    </div>
-                                    <div className='modal-qr-code'>
-                                        <img src={qr} alt="QR Code"/>
-                                        <p className="modal-qr-text">Марко та Оленка</p>
-                                    </div>
-                                </div>
+                            <div className="main-slides">
+                                <ModalWindow modalMessageActive={modalMessageActive} setModalMessageActive={setModalMessageActive} modalMessageYesActive={modalMessageYesActive} onModalMessageClick={onModalMessageClick} votingInProcess={votingInProcess} modalMessageThankYouActive={modalMessageThankYouActive} voteError={voteError}/>
                             </div>
                         </div>
                         <div className="overlay"></div>
@@ -506,7 +470,8 @@ const Metinvest = () => {
                         <div className="modal-first-container">
                             <div className="modal-first-window">
                                 <div className="modal-first-wrapper">
-                                    <h2 className='modal-first-title'>Ласкаво просимо до онлайн порталу чарівного благодійного
+                                    <h2 className='modal-first-title'>Ласкаво просимо до онлайн порталу чарівного
+                                        благодійного
                                         святкового свята!</h2>
                                 </div>
                                 <img className="modal-first-image" src={santa1} alt="Santa"/>
@@ -528,7 +493,8 @@ const Metinvest = () => {
                                         сто років, але він любив побавитися, посміятися та поганяти за сніжинками.
                                     </p>
                                     <p className="modal-first-text3">Кузь та Русалоньки зараз спали аж до літа.</p>
-                                    <a href="#" className="modal-first-button" onClick={() => setFirstModalActive(false)}>зробити
+                                    <a href="#" className="modal-first-button"
+                                       onClick={() => setFirstModalActive(false)}>зробити
                                         чудо</a>
                                 </div>
                             </div>
@@ -575,15 +541,6 @@ const Metinvest = () => {
 
 export default Metinvest
 
-const Slide = (props) => {
-    return (
-        <div className="slide sock-vote">
-            <h1>{props.number} Носок</h1>
-            <p>{props.text}</p>
-            <button className="vote">Проголосовать</button>
-        </div>
-    )
-}
 const FirstModalSock = (props) => {
     return (
         <div className="first-modal-sock">
@@ -601,13 +558,12 @@ const MainSock = (props) => {
                     <p className="main-sock-desc">{props.text}</p>
                 </div>
             </div>
-            <div className="main-sock" onClick={props.mainSockClick()}>
+            <div className="main-sock" onClick={() => props.setSockModalActive(true)}>
                 <img src={props.img} alt='Sock'/>
             </div>
         </div>
     )
 }
-
 const ResultItem = (props) => {
     return (
         <div className='result-item'>
@@ -618,6 +574,63 @@ const ResultItem = (props) => {
             <p className="result-item-votes-text">Голосів</p>
             <h2 className="result-item-title">{props.title}</h2>
             <a href="#" className="result-item-btn">деталі</a>
+        </div>
+    )
+}
+const ModalWindow = (props) => {
+    return (
+        <div className="modal-window">
+            <h1 className='modal-title'>Снігур, Снічептах!</h1>
+            <img className='modal-img' src={modalImage} alt="Modal Image"/>
+            <p className='modal-desc'>
+                Марко та Оленка бавилися у сніжки, ліпили снігових баб і цілі фортеці.
+                З ними часто бавився Жартун з Найвеселішої країни Найсмішніших жартунів
+                (чи як там вона називається) та Сонячний Промінчик. Кузь та Русалоньки зараз спали аж до
+                літа. <br/><br/>
+                Інколи він перетворювався на вовка і бігав зі зграєю, інколи – на ширяючого в піднебессі
+                орла.
+                А зараз от, він вирішив спробувати прожити зиму снігуром. Хоч
+            </p>
+            <h3 className='modal-subtitle'>Марко та Оленка бавилися у сніжки</h3>
+            <div className='modal-btns-wrapper'>
+                <div className='modal-btns'>
+                    <a href="#" className="modal-btn-one" onClick={() => props.setModalMessageActive(true)}>віддати
+                        свій голос</a>
+                    <div
+                        className={props.modalMessageActive ? 'modal-btns-message-wrapper active' : 'modal-btns-message-wrapper'}
+                        style={{backgroundImage: `url(${modalMessageBg}`}}>
+                        <div className="modal-btns-message">
+                            <img className='modal-dots' src={dots} alt="Dots"/>
+                            <div className={props.modalMessageYesActive ? '' : 'modal-message-content-disabled'}>
+                                <p className="modal-btns-message-text">Підтвердіть своє бажання натиснувши
+                                    “ТАК”</p>
+                                <div className="modal-btns-message-btns">
+                                    <a href="#" className="modal-btns-message-btn"
+                                       onClick={() => props.onModalMessageClick()}>так</a>
+                                    <a href="#" className="modal-btns-message-btn"
+                                       onClick={() => props.setModalMessageActive(false)}>ні</a>
+                                </div>
+                            </div>
+                            <div className={props.votingInProcess ? 'preloader active' : 'preloader'}>
+                                <div className="loader"></div>
+                            </div>
+                            <div
+                                className={props.modalMessageThankYouActive ? '' : 'modal-message-content-disabled'}>
+                                <p className="modal-btns-message-text">Дякуємо!</p>
+                            </div>
+                            <div className={props.voteError ? '' : 'modal-message-content-disabled'}>
+                                <p className="modal-btns-message-text">Что-то пошло не так <br/>Повторите
+                                    попытку позже</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href='#' className="modal-btn-two">відправити гроші</a>
+                </div>
+                <div className='modal-qr-code'>
+                    <img src={qr} alt="QR Code"/>
+                    <p className="modal-qr-text">Марко та Оленка</p>
+                </div>
+            </div>
         </div>
     )
 }
