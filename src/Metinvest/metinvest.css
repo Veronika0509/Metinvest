@@ -317,12 +317,9 @@ img {
     overflow: hidden;
 }
 .modal-window-container {
-    padding: 17px;
-    background: #4D8650;
     position: absolute;
     z-index: 2;
     border-radius: 36px;
-    /*overflow: hidden;*/
 }
 .modal.active {
     display: flex;
@@ -331,7 +328,6 @@ img {
     position: relative;
     z-index: 2;
     background: #FFEFE4;
-    outline: 17px dashed #FF2F2F;
     width: 990px;
     height: 570px;
     overflow: auto;
@@ -357,6 +353,9 @@ img {
 }
 .modal-img {
     margin: 15px auto 0 auto;
+    width: 829px;
+    height: 341px;
+    border-radius: 15px;
 }
 .modal-desc {
     font-family: Gilroy, sans-serif;
@@ -744,4 +743,19 @@ img {
     .mobile-main {
         display: flex;
     }
+}
+
+.main-slides {
+    display: flex;
+    border-radius: 20px;
+    max-width: 1024px;
+    overflow-x: hidden;
+    background: #4D8650;
+    border: 17px dashed #FF2F2F;
+    transition: 1s;
+}
+.modal-window {
+    min-width: 1024px;
+    transition: 1s;
+    transform: translateX(-2048px);
 }

@@ -84,6 +84,7 @@ const Metinvest = () => {
     const [timeOut, setTimeOut] = useState((countdownTimestampMs - (new Date()).getTime()) < 0)
     // const [timeOut, setTimeOut] = useState(true)
     const [resultsArray, setResultsArray] = useState([])
+    const [position, setPosition] = useState(0)
 
 
     const [slides, setSlider] = useState([
@@ -531,6 +532,23 @@ const Metinvest = () => {
         audioTree.current.play()
     }
 
+    const mainSlides = React.useRef(null)
+    const onNextSlideClick = () => {
+
+        setPosition(position - 1024)
+        mainSlides.current.childNodes.forEach((slide) => {
+            slide.style = `transform: translateX(${position}px)`
+        })
+        console.log(position)
+    }
+    const onPrevSlideClick = () => {
+        setPosition(position + 1024)
+        mainSlides.current.childNodes.forEach((slide) => {
+            slide.style = `transform: translateX(${position}px)`
+        })
+        console.log(position)
+    }
+
     return (
         <div>
             <audio ref={audioCat}>
@@ -586,11 +604,11 @@ const Metinvest = () => {
                         <div className="modal-window-container">
                             <div className="modal-head">
                                 <div className="modal-socks-container">
-                                    <div className="modal-prev"><img src={modalPrev} alt="Previous slide"/></div>
+                                    <div className="modal-prev" onClick={onPrevSlideClick}><img src={modalPrev} alt="Previous slide"/></div>
                                     <div className="modal-socks">
                                         {modalSocks.map((i) => <img className="modal-sock" src={i.sock} alt="Sock"/>)}
                                     </div>
-                                    <div className="modal-next"><img src={modalNext} alt="Next slide"/></div>
+                                    <div className="modal-next" onClick={onNextSlideClick}><img src={modalNext} alt="Next slide"/></div>
                                 </div>
                                 <div className="modal-left-votes">
                                     <p className="modal-left-vote-text">У вас залишилось голосів</p>
@@ -602,15 +620,15 @@ const Metinvest = () => {
                                     <img src={closeBtn1} alt="To Close"/>
                                 </button>
                             </div>
-                            <div className="main-slides">
-                                <ModalWindow modalMessageActive={modalMessageActive}
+                                <div className="main-slides" ref={mainSlides}>
+                                    {slides.map((s) => <ModalWindow title={s.title} text={s.text} img={s.img} modalMessageActive={modalMessageActive}
                                              setModalMessageActive={setModalMessageActive}
                                              modalMessageYesActive={modalMessageYesActive}
                                              onModalMessageClick={onModalMessageClick}
                                              votingInProcess={votingInProcess}
                                              modalMessageThankYouActive={modalMessageThankYouActive}
-                                             voteError={voteError}/>
-                            </div>
+                                             voteError={voteError}/>)}
+                                </div>
                         </div>
                         <div className="overlay"></div>
                     </div>
@@ -727,56 +745,52 @@ const ResultItem = (props) => {
 }
 const ModalWindow = (props) => {
     return (
-        <div className="modal-window">
-            <h1 className='modal-title'>Снігур, Снічептах!</h1>
-            <img className='modal-img' src={modalImage} alt="Modal Image"/>
-            <p className='modal-desc'>
-                Марко та Оленка бавилися у сніжки, ліпили снігових баб і цілі фортеці.
-                З ними часто бавився Жартун з Найвеселішої країни Найсмішніших жартунів
-                (чи як там вона називається) та Сонячний Промінчик. Кузь та Русалоньки зараз спали аж до
-                літа. <br/><br/>
-                Інколи він перетворювався на вовка і бігав зі зграєю, інколи – на ширяючого в піднебессі
-                орла.
-                А зараз от, він вирішив спробувати прожити зиму снігуром. Хоч
-            </p>
-            <h3 className='modal-subtitle'>Марко та Оленка бавилися у сніжки</h3>
-            <div className='modal-btns-wrapper'>
-                <div className='modal-btns'>
-                    <a href="#" className="modal-btn-one" onClick={() => props.setModalMessageActive(true)}>віддати
-                        свій голос</a>
-                    <div
-                        className={props.modalMessageActive ? 'modal-btns-message-wrapper active' : 'modal-btns-message-wrapper'}
-                        style={{backgroundImage: `url(${modalMessageBg}`}}>
-                        <div className="modal-btns-message">
-                            <img className='modal-dots' src={dots} alt="Dots"/>
-                            <div className={props.modalMessageYesActive ? '' : 'modal-message-content-disabled'}>
-                                <p className="modal-btns-message-text">Підтвердіть своє бажання натиснувши
-                                    “ТАК”</p>
-                                <div className="modal-btns-message-btns">
-                                    <a href="#" className="modal-btns-message-btn"
-                                       onClick={() => props.onModalMessageClick()}>так</a>
-                                    <a href="#" className="modal-btns-message-btn"
-                                       onClick={() => props.setModalMessageActive(false)}>ні</a>
+        <div className="modal-window-wrapper">
+            <div className="modal-window">
+                <h1 className='modal-title'>{props.title}</h1>
+                <img className='modal-img' src={props.img} alt="Modal Image"/>
+                <p className='modal-desc'>
+                    {props.text}
+                </p>
+                <h3 className='modal-subtitle'>{props.title}</h3>
+                <div className='modal-btns-wrapper'>
+                    <div className='modal-btns'>
+                        <a href="#" className="modal-btn-one" onClick={() => props.setModalMessageActive(true)}>віддати
+                            свій голос</a>
+                        <div
+                            className={props.modalMessageActive ? 'modal-btns-message-wrapper active' : 'modal-btns-message-wrapper'}
+                            style={{backgroundImage: `url(${modalMessageBg}`}}>
+                            <div className="modal-btns-message">
+                                <img className='modal-dots' src={dots} alt="Dots"/>
+                                <div className={props.modalMessageYesActive ? '' : 'modal-message-content-disabled'}>
+                                    <p className="modal-btns-message-text">Підтвердіть своє бажання натиснувши
+                                        “ТАК”</p>
+                                    <div className="modal-btns-message-btns">
+                                        <a href="#" className="modal-btns-message-btn"
+                                           onClick={() => props.onModalMessageClick()}>так</a>
+                                        <a href="#" className="modal-btns-message-btn"
+                                           onClick={() => props.setModalMessageActive(false)}>ні</a>
+                                    </div>
+                                </div>
+                                <div className={props.votingInProcess ? 'preloader active' : 'preloader'}>
+                                    <div className="loader"></div>
+                                </div>
+                                <div
+                                    className={props.modalMessageThankYouActive ? '' : 'modal-message-content-disabled'}>
+                                    <p className="modal-btns-message-text">Дякуємо!</p>
+                                </div>
+                                <div className={props.voteError ? '' : 'modal-message-content-disabled'}>
+                                    <p className="modal-btns-message-text">Что-то пошло не так <br/>Повторите
+                                        попытку позже</p>
                                 </div>
                             </div>
-                            <div className={props.votingInProcess ? 'preloader active' : 'preloader'}>
-                                <div className="loader"></div>
-                            </div>
-                            <div
-                                className={props.modalMessageThankYouActive ? '' : 'modal-message-content-disabled'}>
-                                <p className="modal-btns-message-text">Дякуємо!</p>
-                            </div>
-                            <div className={props.voteError ? '' : 'modal-message-content-disabled'}>
-                                <p className="modal-btns-message-text">Что-то пошло не так <br/>Повторите
-                                    попытку позже</p>
-                            </div>
                         </div>
+                        <a href='#' className="modal-btn-two">відправити гроші</a>
                     </div>
-                    <a href='#' className="modal-btn-two">відправити гроші</a>
-                </div>
-                <div className='modal-qr-code'>
-                    <img src={qr} alt="QR Code"/>
-                    <p className="modal-qr-text">Марко та Оленка</p>
+                    <div className='modal-qr-code'>
+                        <img src={qr} alt="QR Code"/>
+                        <p className="modal-qr-text">{props.title}</p>
+                    </div>
                 </div>
             </div>
         </div>
