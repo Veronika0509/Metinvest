@@ -492,6 +492,12 @@ const Metinvest = () => {
     const mainSlides = React.useRef(null)
 
     useEffect(() => {
+        if (Number(sockModalActiveId) < 0) {
+            setSockModalActiveId(0)
+        }
+        if (Number(sockModalActiveId) >= projects.length) {
+            setSockModalActiveId((projects.length -1).toString())
+        }
         if (sockModalActiveId !== undefined) {
             const newPosition = Number(sockModalActiveId) * 1024
             mainSlides.current.childNodes.forEach((slide) => {
@@ -515,13 +521,6 @@ const Metinvest = () => {
         setModalMessageThankYouActive(false)
         setVoteError(false)
         setModalMessageYesActive(true)
-    }
-
-    const modalSockRef = React.createRef()
-    const onModalSocksClick = () => {
-        const modalSockRefId = modalSockRef.current.id
-        console.log(modalSockRefId)
-        setSockModalActiveId(modalSockRefId)
     }
 
     return (
@@ -580,11 +579,24 @@ const Metinvest = () => {
                         <div className="modal-window-container">
                             <div className="modal-head">
                                 <div className="modal-socks-container">
-                                    <div className="modal-prev" onClick={onPrevSlideClick}><img src={modalPrev} alt="Previous slide"/></div>
-                                    <div className="modal-socks">
-                                        {modalSocks.map((i) => <img className="modal-sock" onClick={onModalSocksClick} ref={modalSockRef} src={i.sock} id={i.id} alt="Sock"/>)}
+                                    <div className="modal-prev"
+                                         style={{visibility: Number(sockModalActiveId) > 0 ? 'visible' : 'hidden'}}
+                                         onClick={onPrevSlideClick}>
+                                        <img src={modalPrev} alt="Previous slide"/>
                                     </div>
-                                    <div className="modal-next" onClick={onNextSlideClick}><img src={modalNext} alt="Next slide"/></div>
+                                    <div className="modal-socks">
+                                        {projects.map( project => <img className="modal-sock"
+                                            onClick={(event) => setSockModalActiveId(event.currentTarget.id)}
+                                            src={sockModalActiveId === project.id.toString() ? modalActiveSock : modalSock}
+                                            id={project.id}
+                                            alt="Sock"/>)
+                                        }
+                                    </div>
+                                    <div className="modal-next"
+                                         style={{visibility: Number(sockModalActiveId) < projects.length - 1 ? 'visible' : 'hidden'}}
+                                         onClick={onNextSlideClick}>
+                                        <img src={modalNext} alt="Next slide"/>
+                                    </div>
                                 </div>
                                 <div className="modal-left-votes">
                                     {votesLeft > 0
