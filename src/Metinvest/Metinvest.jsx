@@ -604,6 +604,7 @@ const Metinvest = () => {
                         </div>
                         <div className="main-socks">
                             {projects.map((s) => <MainSock title={s.title} text={s.shortText} img={s.img}
+                                                           voted={isProjectAlreadyVoted(s.id)}
                                                            setSockModalActiveId={setSockModalActiveId}
                                                            id={s.id}/>)}
                         </div>
@@ -652,7 +653,7 @@ const Metinvest = () => {
                                                                 text={s.text}
                                                                 img={s.img}
                                                                 // id={s.number}
-                                                                voted={isProjectAlreadyVoted(s.number - 1) == true}
+                                                                voted={isProjectAlreadyVoted(s.number - 1)}
                                                                 canVote={votesLeft > 0}
                                                                 modalMessageActive={modalMessageActive}
                                                                 setModalMessageActive={setModalMessageActive}
@@ -758,7 +759,7 @@ const MainSock = (props) => {
                     <p className="main-sock-desc">{props.text}</p>
                 </div>
             </div>
-            <div className="main-sock" onClick={() => props.setSockModalActiveId(props.id)}>
+            <div className={'main-sock '+(props.voted ? 'voted' : '')} onClick={() => props.setSockModalActiveId(props.id)}>
                 <img src={props.img} alt='Sock'/>
             </div>
         </div>

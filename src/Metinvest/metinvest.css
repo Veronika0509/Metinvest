@@ -234,6 +234,9 @@ img {
     font-family: DS-Digital, sans-serif;
     display: flex;
 }
+.main-socks .voted {
+    scale: 120%;
+}
 .main-socks {
     display: flex;
     align-items: center;
