@@ -235,13 +235,14 @@ img {
     display: flex;
 }
 .main-socks .voted {
-    scale: 120%;
+    margin-top: 40px;
+    transform: scaleY(130%)
 }
 .main-socks {
     display: flex;
     align-items: center;
     width: 980px;
-    margin-top: 33px;
+    margin-top: 0px;
     margin-left: 259px;
 }
 .main-fire {
@@ -759,4 +760,14 @@ img {
 .modal-window {
     min-width: 1024px;
     transition: .5s;
+}
+.completed-message {
+    font-family: Gilroy, sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    margin-left: 223px;
+    padding: 15px;
+    background: #ffe9da;
+    border-radius: 15px;
+    border: 5px solid #4D8650;
 }

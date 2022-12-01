@@ -790,9 +790,9 @@ const ModalWindow = (props) => {
                 {/*{props.voted ? 'VOTED' : 'NOT VOTED'}*/}
                 <div className='modal-btns-wrapper'>
                     <div className='modal-btns'>
-                        { props.voted ? 'Голос враховано' : (props.canVote
+                        { props.voted ? <p className="completed-message">Голос враховано</p> : (props.canVote
                             ? <a href="#" className="modal-btn-one" onClick={() => props.setModalMessageActive(true)}>віддати свій голос</a>
-                            : 'Подарунків не залишилося')
+                            : <p className="completed-message">Подарунків не залишилося</p>)
                         }
                         <div
                             className={props.modalMessageActive ? 'modal-btns-message-wrapper active' : 'modal-btns-message-wrapper'}
