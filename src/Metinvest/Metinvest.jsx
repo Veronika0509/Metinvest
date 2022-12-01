@@ -85,6 +85,7 @@ const Metinvest = () => {
     // const [timeOut, setTimeOut] = useState(true)
     const [resultsArray, setResultsArray] = useState([])
     const [position, setPosition] = useState(0)
+    const [votesLeft, setVotesLeft] = useState(getVotesLeftFromLocalstorage())
 
 
     const [slides, setSlider] = useState([
@@ -401,7 +402,7 @@ const Metinvest = () => {
         const projectId = sockModalActiveId
         console.log(projectId)
 
-        if (getVotesLeft() <= 0) {
+        if (getVotesLeftFromLocalstorage() <= 0) {
             // todo what to do in case of no more votes?
             console.error("No more votes lest")
             setModalMessageYesActive(false)
@@ -422,7 +423,7 @@ const Metinvest = () => {
         setVotingInProcess(true)
 
         makeVote(projectId).then(async () => {
-            registerVoteMadeLocally(projectId)
+            setVotesLeft(registerVoteMadeLocally(projectId))
         }).catch(async (e) => {
             console.log(e)
             onVoteError(e)
@@ -533,22 +534,28 @@ const Metinvest = () => {
     }
 
     const mainSlides = React.useRef(null)
+
+    useEffect(() => {
+        if (sockModalActiveId !== undefined) {
+            const newPosition = Number(sockModalActiveId) * 1024
+            mainSlides.current.childNodes.forEach((slide) => {
+                slide.style = `transform: translateX(${-newPosition}px)`
+            })
+            setPosition(newPosition)
+        }
+    }, [sockModalActiveId])
+
     const onNextSlideClick = () => {
         setSockModalActiveId((Number(sockModalActiveId) + 1).toString())
-        setPosition(position - 1024)
-        mainSlides.current.childNodes.forEach((slide) => {
-            slide.style = `transform: translateX(${position}px)`
-        })
+
         setModalMessageThankYouActive(false)
         setVoteError(false)
         setModalMessageYesActive(true)
     }
+
     const onPrevSlideClick = () => {
         setSockModalActiveId((Number(sockModalActiveId) - 1).toString())
-        setPosition(position + 1024)
-        mainSlides.current.childNodes.forEach((slide) => {
-            slide.style = `transform: translateX(${position}px)`
-        })
+
         setModalMessageThankYouActive(false)
         setVoteError(false)
         setModalMessageYesActive(true)
@@ -616,23 +623,45 @@ const Metinvest = () => {
                                     <div className="modal-next" onClick={onNextSlideClick}><img src={modalNext} alt="Next slide"/></div>
                                 </div>
                                 <div className="modal-left-votes">
-                                    <p className="modal-left-vote-text">У вас залишилось голосів</p>
-                                    <div className="modal-left-vote-imgs">
-                                        {modalSweets.map((s) => <img src={s.sweet} alt="Sweet"/>)}
-                                    </div>
+                                    {votesLeft > 0
+                                        ? <>
+                                            <p className="modal-left-vote-text">У вас залишилось голосів</p>
+                                            <div className="modal-left-vote-imgs">
+                                                {[...Array(3 - votesLeft).keys()].map(() => {
+                                                    return <img src={modalDisableSweet} alt="Sweet"/>
+                                                })}
+                                                {[...Array(votesLeft).keys()].map(() => {
+                                                    return <img src={modalSweet} alt="Sweet"/>
+                                                })}
+                                                {/*{modalSweets.map((s) => <img src={s.sweet} alt="Sweet"/>)}*/}
+                                            </div>
+                                        </> : <>
+                                            <p className="modal-left-vote-text">У вас не залишилось голосів</p>
+                                        </>
+                                    }
                                 </div>
                                 <button className="btn-close" onClick={() => setSockModalActiveId(undefined)}>
                                     <img src={closeBtn1} alt="To Close"/>
                                 </button>
                             </div>
                                 <div className="main-slides" ref={mainSlides}>
-                                    {slides.map((s) => <ModalWindow title={s.title} text={s.text} img={s.img} modalMessageActive={modalMessageActive}
-                                             setModalMessageActive={setModalMessageActive}
-                                             modalMessageYesActive={modalMessageYesActive}
-                                             onModalMessageClick={onModalMessageClick}
-                                             votingInProcess={votingInProcess}
-                                             modalMessageThankYouActive={modalMessageThankYouActive}
-                                             voteError={voteError}/>)}
+                                    {/*{slides.map((s) => s.number + isProjectAlreadyVoted(s.number - 1).toString() + '|')}*/}
+
+                                    {slides.map((s) => <ModalWindow
+                                                                title={s.title}
+                                                                text={s.text}
+                                                                img={s.img}
+                                                                // id={s.number}
+                                                                voted={isProjectAlreadyVoted(s.number - 1) == true}
+                                                                canVote={votesLeft > 0}
+                                                                modalMessageActive={modalMessageActive}
+                                                                setModalMessageActive={setModalMessageActive}
+                                                                modalMessageYesActive={modalMessageYesActive}
+                                                                onModalMessageClick={onModalMessageClick}
+                                                                votingInProcess={votingInProcess}
+                                                                modalMessageThankYouActive={modalMessageThankYouActive}
+                                                                voteError={voteError}/>
+                                    )}
                                 </div>
                         </div>
                         <div className="overlay"></div>
@@ -757,10 +786,13 @@ const ModalWindow = (props) => {
                     {props.text}
                 </p>
                 <h3 className='modal-subtitle'>{props.title}</h3>
+                {/*{props.voted ? 'VOTED' : 'NOT VOTED'}*/}
                 <div className='modal-btns-wrapper'>
                     <div className='modal-btns'>
-                        <a href="#" className="modal-btn-one" onClick={() => props.setModalMessageActive(true)}>віддати
-                            свій голос</a>
+                        { props.voted ? 'Голос враховано' : (props.canVote
+                            ? <a href="#" className="modal-btn-one" onClick={() => props.setModalMessageActive(true)}>віддати свій голос</a>
+                            : 'Подарунків не залишилося')
+                        }
                         <div
                             className={props.modalMessageActive ? 'modal-btns-message-wrapper active' : 'modal-btns-message-wrapper'}
                             style={{backgroundImage: `url(${modalMessageBg}`}}>
@@ -816,21 +848,22 @@ function getUserId() {
     }
 }
 
-function getVotesLeft() {
+function getVotesLeftFromLocalstorage() {
     const votesLeft = localStorage.getItem("votesLeft")
     if (!votesLeft) {
         return 3
     } else {
-        return votesLeft
+        return Number(votesLeft)
     }
 }
 
 function registerVoteMadeLocally(projectId) {
-    const votesLeft = getVotesLeft()
+    const votesLeft = getVotesLeftFromLocalstorage()
     localStorage.setItem("votesLeft", votesLeft - 1)
     localStorage.setItem(projectId, true)
+    return votesLeft - 1
 }
 
 function isProjectAlreadyVoted(projectId) {
-    return localStorage.getItem(projectId) == true
+    return localStorage.getItem(projectId) == 'true'
 }
