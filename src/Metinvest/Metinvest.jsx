@@ -336,16 +336,16 @@ const Metinvest = () => {
     })
 
     const modalSocks = [
-        {sock: modalSock},
-        {sock: modalSock},
-        {sock: modalActiveSock},
-        {sock: modalSock},
-        {sock: modalSock},
-        {sock: modalSock},
-        {sock: modalSock},
-        {sock: modalSock},
-        {sock: modalSock},
-        {sock: modalSock},
+        {id: 0, sock: modalSock},
+        {id: 1, sock: modalSock},
+        {id: 2, sock: modalActiveSock},
+        {id: 3, sock: modalSock},
+        {id: 4, sock: modalSock},
+        {id: 5, sock: modalSock},
+        {id: 6, sock: modalSock},
+        {id: 7, sock: modalSock},
+        {id: 8, sock: modalSock},
+        {id: 9, sock: modalSock},
     ]
 
     const modalSweets = [
@@ -517,6 +517,13 @@ const Metinvest = () => {
         setModalMessageYesActive(true)
     }
 
+    const modalSockRef = React.createRef()
+    const onModalSocksClick = () => {
+        const modalSockRefId = modalSockRef.current.id
+        console.log(modalSockRefId)
+        setSockModalActiveId(modalSockRefId)
+    }
+
     return (
         <div>
             <audio ref={audioCat}>
@@ -575,7 +582,7 @@ const Metinvest = () => {
                                 <div className="modal-socks-container">
                                     <div className="modal-prev" onClick={onPrevSlideClick}><img src={modalPrev} alt="Previous slide"/></div>
                                     <div className="modal-socks">
-                                        {modalSocks.map((i) => <img className="modal-sock" src={i.sock} alt="Sock"/>)}
+                                        {modalSocks.map((i) => <img className="modal-sock" onClick={onModalSocksClick} ref={modalSockRef} src={i.sock} id={i.id} alt="Sock"/>)}
                                     </div>
                                     <div className="modal-next" onClick={onNextSlideClick}><img src={modalNext} alt="Next slide"/></div>
                                 </div>
