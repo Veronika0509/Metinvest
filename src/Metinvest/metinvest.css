@@ -224,6 +224,9 @@ img {
     justify-content: space-between;
     width: 210px;
 }
+.main-sounds > * {
+    cursor: pointer;
+}
 .main-timer {
     width: 188px;
     height: 75px;
@@ -590,6 +593,7 @@ img {
 }
 
 .result-item {
+    position: relative;
     background: #fff;
     border-radius: 10px;
     padding: 37px 32px 30px 33px;
@@ -665,8 +669,10 @@ img {
     margin-top: 19px;
 }
 .result-item-btn {
+    position: absolute;
+    bottom: 50px;
     display: block;
-    margin: 25px auto 0 auto;
+    margin-left: 13px;
     font-family: Gilroy, sans-serif;
     font-weight: 600;
     font-size: 20px;
@@ -771,7 +777,4 @@ img {
     background: #ffe9da;
     border-radius: 15px;
     border: 5px solid #4D8650;
-}
-.modal-window:nth-child(8) .modal-img {
-
 }
