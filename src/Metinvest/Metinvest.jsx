@@ -48,9 +48,9 @@ import christmasTree from '../img/assets/christmas-tree.png'
 import floor from '../img/assets/floor.jpg'
 import presents from '../img/assets/presents.png'
 import armchair from '../img/assets/armchair.png'
-import myau from '../audio/myau.mp3'
+import cat from '../audio/cat.mp3'
 import fire from '../audio/fire.mp3'
-import tree from '../audio/tree.mp3'
+import music from '../audio/music.mp3'
 import Slide1 from '../img/slidesImages/slide1.jpeg'
 import Slide3 from '../img/slidesImages/slide3.jpeg'
 import Slide4 from '../img/slidesImages/slide4.JPG'
@@ -86,6 +86,9 @@ const Metinvest = () => {
     const [resultsArray, setResultsArray] = useState([])
     const [position, setPosition] = useState(0)
     const [votesLeft, setVotesLeft] = useState(getVotesLeftFromLocalstorage())
+    const [catClicked, setCatClicked] = useState(false)
+    const [fireClicked, setFireClicked] = useState(false)
+    const [musicClicked, setMusicClicked] = useState(false)
 
 
     const [slides, setSlider] = useState([
@@ -478,15 +481,33 @@ const Metinvest = () => {
 
     const audioCat = React.createRef()
     const audioFire = React.createRef()
-    const audioTree = React.createRef()
+    const audioMusic = React.createRef()
     const onCatClick = () => {
-        audioCat.current.play()
+        if (catClicked) {
+            audioCat.current.pause()
+            setCatClicked(false)
+        } else {
+            audioCat.current.play()
+            setCatClicked(true)
+        }
     }
     const onFireClick = () => {
-        audioFire.current.play()
+        if (fireClicked) {
+            audioFire.current.pause()
+            setFireClicked(false)
+        } else {
+            audioFire.current.play()
+            setFireClicked(true)
+        }
     }
-    const onTreeClick = () => {
-        audioTree.current.play()
+    const onMusicClick = () => {
+        if (musicClicked) {
+            audioMusic.current.pause()
+            setMusicClicked(false)
+        } else {
+            audioMusic.current.play()
+            setMusicClicked(true)
+        }
     }
 
     const mainSlides = React.useRef(null)
@@ -526,28 +547,24 @@ const Metinvest = () => {
     return (
         <div>
             <audio ref={audioCat}>
-                <source src={myau} type="audio/mpeg"/>
+                <source src={cat} type="audio/mpeg"/>
             </audio>
             <audio ref={audioFire}>
                 <source src={fire} type="audio/mpeg"/>
             </audio>
-            <audio ref={audioTree}>
-                <source src={tree} type="audio/mpeg"/>
+            <audio ref={audioMusic}>
+                <source src={music} type="audio/mpeg"/>
             </audio>
             <div className="main">
                 {!timeOut ? <>
                     <div className="main-section" style={{backgroundImage: `url(${mainSectionBg})`}}>
-                        <div className="main-christmas-tree-wrapper" onClick={onTreeClick}>
-                            <div className="main-christmas-tree"></div>
-                            <div className="main-christmas-tree-2"></div>
-                        </div>
                         <div className="main-head">
                             <img src={logo} alt="Logo"/>
                             <div className="main-sounds">
-                                <img src={soundFire} alt="Fire"/>
-                                <img src={soundMusic} alt="Music"/>
-                                <img src={soundCat} alt="Cat"/>
-                                <img src={soundQuestion} alt="Question"/>
+                                <img src={soundFire} alt="Fire" onClick={onFireClick}/>
+                                <img src={soundMusic} alt="Music" onClick={onMusicClick}/>
+                                <img src={soundCat} alt="Cat" onClick={onCatClick}/>
+                                <img src={soundQuestion} alt="Question" onClick={() => setFirstModalActive(true)}/>
                             </div>
                         </div>
                         <div className="main-timer">
