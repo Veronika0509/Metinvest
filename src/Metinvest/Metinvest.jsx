@@ -84,8 +84,9 @@ const Metinvest = () => {
     const [timeOut, setTimeOut] = useState((countdownTimestampMs - (new Date()).getTime()) < 0)
     // const [timeOut, setTimeOut] = useState(true)
     const [resultsArray, setResultsArray] = useState([])
+    const [votingRate, setVotingRate] = useState({})
     const [position, setPosition] = useState(0)
-    const [votesLeft, setVotesLeft] = useState(getVotesLeftFromLocalstorage())
+    const [votesLeft, setVotesLeft] = useState(timeOut ? 0 : getVotesLeftFromLocalstorage())
 
 
     const [slides, setSlider] = useState([
@@ -386,7 +387,10 @@ const Metinvest = () => {
         }).finally(() => {
             setVotingInProcess(false)
             setModalMessageThankYouActive(true)
-            setTimeout(() => setModalMessageActive(false), 3000)
+            setTimeout(() => {
+                setModalMessageActive(false)
+                setModalMessageThankYouActive(false)
+            }, 3000)
         })
 
     }
@@ -454,22 +458,38 @@ const Metinvest = () => {
     }, [countdownTimestampMs])
 
     useEffect(() => {
-        if (timeOut) {
+        // if (timeOut) {
             fetch(serverUrl + `votes`).then(async (response) => {
                 if (response.ok) {
                     const data = await response.json()
                     const votesByProject = {}
+                    const rateByProject = {}
 
+                    let min = 1000000, max = 0;
                     data.forEach((item) => {
                         votesByProject[item.project] = item.votes
+
+                        if (item.votes > max) {
+                            max = item.votes
+                        }
+
+                        if (item.votes < min) {
+                            min = item.votes
+                        }
+                    })
+
+                    data.forEach((item) => {
+                        rateByProject[item.project] =  1 - ((max - min) - (item.votes - min)) / (max - min)
                     })
 
                     setResultsArray(projects.map(project => {
                         return {...project, votes: votesByProject[project.id] ?? 0}
-                    }))
+                    }).sort( (a, b) => b.votes - a.votes))
+
+                    setVotingRate(rateByProject)
                 }
             })
-        }
+        // }
     }, [])
 
     const updateRemainingTime = (countdown) => {
@@ -505,22 +525,18 @@ const Metinvest = () => {
             })
             setPosition(newPosition)
         }
+        setModalMessageActive(false)
+        setModalMessageThankYouActive(false)
+        setModalMessageYesActive(true)
+        setVoteError(false)
     }, [sockModalActiveId])
 
     const onNextSlideClick = () => {
         setSockModalActiveId((Number(sockModalActiveId) + 1).toString())
-
-        setModalMessageThankYouActive(false)
-        setVoteError(false)
-        setModalMessageYesActive(true)
     }
 
     const onPrevSlideClick = () => {
         setSockModalActiveId((Number(sockModalActiveId) - 1).toString())
-
-        setModalMessageThankYouActive(false)
-        setVoteError(false)
-        setModalMessageYesActive(true)
     }
 
     return (
@@ -567,6 +583,7 @@ const Metinvest = () => {
                         <div className="main-socks">
                             {projects.map((s) => <MainSock title={s.title} text={s.shortText} img={s.img}
                                                            voted={isProjectAlreadyVoted(s.id)}
+                                                           votingRate={votingRate}
                                                            setSockModalActiveId={setSockModalActiveId}
                                                            id={s.id}/>)}
                         </div>
@@ -574,73 +591,6 @@ const Metinvest = () => {
                             <div className="main-fire" onClick={onFireClick}></div>
                             <div className="main-cat" onClick={onCatClick}></div>
                         </div>
-                    </div>
-                    <div className={sockModalActiveId ? 'modal active' : 'modal'}>
-                        <div className="modal-window-container">
-                            <div className="modal-head">
-                                <div className="modal-socks-container">
-                                    <div className="modal-prev"
-                                         style={{visibility: Number(sockModalActiveId) > 0 ? 'visible' : 'hidden'}}
-                                         onClick={onPrevSlideClick}>
-                                        <img src={modalPrev} alt="Previous slide"/>
-                                    </div>
-                                    <div className="modal-socks">
-                                        {projects.map( project => <img className="modal-sock"
-                                            onClick={(event) => setSockModalActiveId(event.currentTarget.id)}
-                                            src={sockModalActiveId === project.id.toString() ? modalActiveSock : modalSock}
-                                            id={project.id}
-                                            alt="Sock"/>)
-                                        }
-                                    </div>
-                                    <div className="modal-next"
-                                         style={{visibility: Number(sockModalActiveId) < projects.length - 1 ? 'visible' : 'hidden'}}
-                                         onClick={onNextSlideClick}>
-                                        <img src={modalNext} alt="Next slide"/>
-                                    </div>
-                                </div>
-                                <div className="modal-left-votes">
-                                    {votesLeft > 0
-                                        ? <>
-                                            <p className="modal-left-vote-text">У вас залишилось голосів</p>
-                                            <div className="modal-left-vote-imgs">
-                                                {[...Array(3 - votesLeft).keys()].map(() => {
-                                                    return <img src={modalDisableSweet} alt="Sweet"/>
-                                                })}
-                                                {[...Array(votesLeft).keys()].map(() => {
-                                                    return <img src={modalSweet} alt="Sweet"/>
-                                                })}
-                                                {/*{modalSweets.map((s) => <img src={s.sweet} alt="Sweet"/>)}*/}
-                                            </div>
-                                        </> : <>
-                                            <p className="modal-left-vote-text">У вас не залишилось голосів</p>
-                                        </>
-                                    }
-                                </div>
-                                <button className="btn-close" onClick={() => setSockModalActiveId(undefined)}>
-                                    <img src={closeBtn1} alt="To Close"/>
-                                </button>
-                            </div>
-                                <div className="main-slides" ref={mainSlides}>
-                                    {/*{slides.map((s) => s.number + isProjectAlreadyVoted(s.number - 1).toString() + '|')}*/}
-
-                                    {slides.map((s) => <ModalWindow
-                                                                title={s.title}
-                                                                text={s.text}
-                                                                img={s.img}
-                                                                // id={s.number}
-                                                                voted={isProjectAlreadyVoted(s.number - 1)}
-                                                                canVote={votesLeft > 0}
-                                                                modalMessageActive={modalMessageActive}
-                                                                setModalMessageActive={setModalMessageActive}
-                                                                modalMessageYesActive={modalMessageYesActive}
-                                                                onModalMessageClick={onModalMessageClick}
-                                                                votingInProcess={votingInProcess}
-                                                                modalMessageThankYouActive={modalMessageThankYouActive}
-                                                                voteError={voteError}/>
-                                    )}
-                                </div>
-                        </div>
-                        <div className="overlay"></div>
                     </div>
                     <div className={firstModalActive ? "modal-first" : "modal-first disabled"}>
                         <div className="modal-first-container">
@@ -689,7 +639,13 @@ const Metinvest = () => {
                         <div className="results-content">
                             <h1 className="results-content-title">Результати голосування</h1>
                             <div className="results-content-wrapper">
-                                {resultsArray.map((r) => <ResultItem img={r.img} votes={r.votes} title={r.title}/>)}
+                                {resultsArray.map((r) => <ResultItem
+                                    projectId={r.id}
+                                    img={r.img}
+                                    votes={r.votes}
+                                    title={r.title}
+                                    setSockModalActiveId={setSockModalActiveId}
+                                />)}
                             </div>
                             <div>
                                 <img className="results-christmas-tree" src={christmasTree} alt="Christmas Tree"/>
@@ -700,6 +656,74 @@ const Metinvest = () => {
                         </div>
                     </div>
                 </>}
+
+                <div className={sockModalActiveId ? 'modal active' : 'modal'}>
+                    <div className="modal-window-container">
+                        <div className="modal-head">
+                            <div className="modal-socks-container">
+                                <div className="modal-prev"
+                                     style={{visibility: Number(sockModalActiveId) > 0 ? 'visible' : 'hidden'}}
+                                     onClick={onPrevSlideClick}>
+                                    <img src={modalPrev} alt="Previous slide"/>
+                                </div>
+                                <div className="modal-socks">
+                                    {projects.map( project => <img className="modal-sock"
+                                                                   onClick={(event) => setSockModalActiveId(event.currentTarget.id)}
+                                                                   src={sockModalActiveId === project.id.toString() ? modalActiveSock : modalSock}
+                                                                   id={project.id}
+                                                                   alt="Sock"/>)
+                                    }
+                                </div>
+                                <div className="modal-next"
+                                     style={{visibility: Number(sockModalActiveId) < projects.length - 1 ? 'visible' : 'hidden'}}
+                                     onClick={onNextSlideClick}>
+                                    <img src={modalNext} alt="Next slide"/>
+                                </div>
+                            </div>
+                            <div className="modal-left-votes">
+                                {votesLeft > 0
+                                    ? <>
+                                        <p className="modal-left-vote-text">У вас залишилось голосів</p>
+                                        <div className="modal-left-vote-imgs">
+                                            {[...Array(3 - votesLeft).keys()].map(() => {
+                                                return <img src={modalDisableSweet} alt="Sweet"/>
+                                            })}
+                                            {[...Array(votesLeft).keys()].map(() => {
+                                                return <img src={modalSweet} alt="Sweet"/>
+                                            })}
+                                            {/*{modalSweets.map((s) => <img src={s.sweet} alt="Sweet"/>)}*/}
+                                        </div>
+                                    </> : <>
+                                        <p className="modal-left-vote-text">У вас не залишилось голосів</p>
+                                    </>
+                                }
+                            </div>
+                            <button className="btn-close" onClick={() => setSockModalActiveId(undefined)}>
+                                <img src={closeBtn1} alt="To Close"/>
+                            </button>
+                        </div>
+                        <div className="main-slides" ref={mainSlides}>
+                            {/*{slides.map((s) => s.number + isProjectAlreadyVoted(s.number - 1).toString() + '|')}*/}
+
+                            {slides.map((s) => <ModalWindow
+                                title={s.title}
+                                text={s.text}
+                                img={s.img}
+                                // id={s.number}
+                                voted={isProjectAlreadyVoted(s.number - 1)}
+                                canVote={votesLeft > 0}
+                                modalMessageActive={modalMessageActive}
+                                setModalMessageActive={setModalMessageActive}
+                                modalMessageYesActive={modalMessageYesActive}
+                                onModalMessageClick={onModalMessageClick}
+                                votingInProcess={votingInProcess}
+                                modalMessageThankYouActive={modalMessageThankYouActive}
+                                voteError={voteError}/>
+                            )}
+                        </div>
+                    </div>
+                    <div className="overlay"></div>
+                </div>
             </div>
             <div className="mobile-main">
                 <div>
@@ -726,7 +750,8 @@ const FirstModalSock = (props) => {
 }
 const MainSock = (props) => {
     return (
-        <div className="main-sock-wrapper">
+        <div className="main-sock-wrapper"
+             style={{transform: `scaleY(${100 + props.votingRate[props.id] * 30}%)`, paddingTop: `${props.votingRate[props.id] * 40}px`}}>
             <div className="main-sock-text-container" style={{backgroundImage: `url(${mainSockTextBg})`}}>
                 <div className="main-sock-text">
                     <img className="main-sock-text-dots" src={dots} alt="Dots"/>
@@ -734,7 +759,9 @@ const MainSock = (props) => {
                     <p className="main-sock-desc">{props.text}</p>
                 </div>
             </div>
-            <div className={'main-sock '+(props.voted ? 'voted' : '')} onClick={() => props.setSockModalActiveId(props.id)}>
+            <div className="main-sock"
+
+                 onClick={() => props.setSockModalActiveId(props.id)}>
                 <img src={props.img} alt='Sock'/>
             </div>
         </div>
@@ -749,7 +776,7 @@ const ResultItem = (props) => {
             <p className="result-item-votes">{props.votes}</p>
             <p className="result-item-votes-text">Голосів</p>
             <h2 className="result-item-title">{props.title}</h2>
-            <a href="#" className="result-item-btn">деталі</a>
+            <a href="#" className="result-item-btn" onClick={() => props.setSockModalActiveId(props.projectId)}>деталі</a>
         </div>
     )
 }
