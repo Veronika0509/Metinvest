@@ -69,8 +69,8 @@ import fireItem7 from '../img/fireItems/fireitem7.png'
 import catTail from '../img/assets/cattail.png'
 import resultsGradient from '../img/assets/results-gradient.png'
 
-// const serverUrl = "http://localhost:3003/"
-const serverUrl = "https://metinvest-app.herokuapp.com/"
+const serverUrl = "http://localhost:3003/"
+// const serverUrl = "https://metinvest-app.herokuapp.com/"
 const userId = getUserId()
 
 const defaultRemainingTime = {
@@ -786,8 +786,7 @@ const FirstModalSock = (props) => {
 }
 const MainSock = (props) => {
     return (
-        <div className="main-sock-wrapper"
-             style={{transform: `scaleY(${100 + props.votingRate[props.id] * 30}%)`, paddingTop: `${props.votingRate[props.id] * 40}px`}}>
+        <div className="main-sock-wrapper">
             <div className="main-sock-text-container" style={{backgroundImage: `url(${mainSockTextBg})`}}>
                 <div className="main-sock-text">
                     <img className="main-sock-text-dots" src={dots} alt="Dots"/>
@@ -795,10 +794,11 @@ const MainSock = (props) => {
                     <p className="main-sock-desc">{props.text}</p>
                 </div>
             </div>
-            <div className="main-sock"
-
-                 onClick={() => props.setSockModalActiveId(props.id)}>
-                <img src={props.img} alt='Sock'/>
+            <div style={{transform: `scaleY(${100 + props.votingRate[props.id] * 30}%)`, paddingTop: `${props.votingRate[props.id] * 40}px`}}>
+                <div className="main-sock"
+                     onClick={() => props.setSockModalActiveId(props.id)}>
+                    <img src={props.img} alt='Sock'/>
+                </div>
             </div>
         </div>
     )
