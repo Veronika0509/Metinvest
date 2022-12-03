@@ -822,6 +822,7 @@ img {
 .cat-tail {
     margin-top: 73px;
     margin-left: 106px;
+    transform-origin: top right;
 }
 .main-cat.active .cat-tail {
     animation-name: cat-tail;
