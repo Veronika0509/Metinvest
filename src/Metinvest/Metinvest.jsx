@@ -34,7 +34,6 @@ import mainSock9 from '../img/mainSocks/mainsock9.png'
 import mainSock10 from '../img/mainSocks/mainsock10.png'
 import dots from '../img/assets/dots.png'
 import mainSockTextBg from '../img/assets/main-sock-text-bg.png'
-import modalImage from '../img/assets/modal-image.png'
 import qr from '../img/assets/qr.png'
 import modalPrev from '../img/assets/modal-left.png'
 import modalNext from '../img/assets/modal-right.png'
@@ -51,14 +50,24 @@ import armchair from '../img/assets/armchair.png'
 import cat from '../audio/cat.mp3'
 import fire from '../audio/fire.mp3'
 import music from '../audio/music.mp3'
-import Slide1 from '../img/slidesImages/slide1.jpeg'
-import Slide3 from '../img/slidesImages/slide3.jpeg'
-import Slide4 from '../img/slidesImages/slide4.JPG'
-import Slide5 from '../img/slidesImages/slide5.jpeg'
-import Slide6 from '../img/slidesImages/slide6.jpg'
-import Slide7 from '../img/slidesImages/slide7.jpeg'
+import Slide1 from '../img/slidesImages/slide1.png'
+import Slide3 from '../img/slidesImages/slide3.png'
+import Slide4 from '../img/slidesImages/slide4.png'
+import Slide5 from '../img/slidesImages/slide5.png'
+import Slide6 from '../img/slidesImages/slide6.png'
+import Slide7 from '../img/slidesImages/slide7.png'
 import Slide8 from '../img/slidesImages/slide8.png'
-import Slide10 from '../img/slidesImages/slide10.jpeg'
+import Slide9 from '../img/slidesImages/slide9.png'
+import Slide10 from '../img/slidesImages/slide10.png'
+import fireItem1 from '../img/fireItems/fireitem1.png'
+import fireItem2 from '../img/fireItems/fireitem2.png'
+import fireItem3 from '../img/fireItems/fireitem3.png'
+import fireItem4 from '../img/fireItems/fireitem4.png'
+import fireItem5 from '../img/fireItems/fireitem5.png'
+import fireItem6 from '../img/fireItems/fireitem6.png'
+import fireItem7 from '../img/fireItems/fireitem7.png'
+import catTail from '../img/assets/cattail.png'
+import resultsGradient from '../img/assets/results-gradient.png'
 
 // const serverUrl = "http://localhost:3003/"
 const serverUrl = "https://metinvest-app.herokuapp.com/"
@@ -90,6 +99,7 @@ const Metinvest = () => {
     const [catClicked, setCatClicked] = useState(false)
     const [fireClicked, setFireClicked] = useState(false)
     const [musicClicked, setMusicClicked] = useState(false)
+    const [dotInTurntable, setDotInTurntable] = useState(false)
 
 
     const [slides, setSlider] = useState([
@@ -252,7 +262,7 @@ const Metinvest = () => {
                 'Якщо проєкт стане лідером за підсумками голосування, то до майстерні та бойлерів буде додано ще й чотири інтерактивні дошки в навчальні класи. \n' +
                 '\n' +
                 'Окрім участі у голосуванні за це новорічне диво, ви можете також зробити добровільний донат, скориставшись QR-кодом. Усі кошти, зібрані за цим кодом, будуть передані безпосередньо школі як благодійна фінансова допомога.\n',
-            img: Slide1
+            img: Slide9
         },
         {
             number: 10,
@@ -402,18 +412,6 @@ const Metinvest = () => {
         setVoteError(true)
         setTimeout(() => setModalMessageActive(false), 5000)
     }
-    // const resultsArray = [
-    //     {img: mainSock1, votes: 523, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock2, votes: 223, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock3, votes: 45, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock4, votes: 44, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock5, votes: 12, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock6, votes: 8, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock7, votes: 4, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock8, votes: 2, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock9, votes: 1, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'},
-    //     {img: mainSock10, votes: 0, title: 'Сенсорная комната для центра реабилитации детей с инвалидностью'}
-    // ]
 
     const makeVote = async (projectId) => {
         // await delay(3000)
@@ -523,9 +521,11 @@ const Metinvest = () => {
     const onMusicClick = () => {
         if (musicClicked) {
             audioMusic.current.pause()
+            setDotInTurntable(false)
             setMusicClicked(false)
         } else {
             audioMusic.current.play()
+            setDotInTurntable(true)
             setMusicClicked(true)
         }
     }
@@ -540,7 +540,7 @@ const Metinvest = () => {
             setSockModalActiveId((projects.length -1).toString())
         }
         if (sockModalActiveId !== undefined) {
-            const newPosition = Number(sockModalActiveId) * 1024
+            const newPosition = Number(sockModalActiveId) * 1200
             mainSlides.current.childNodes.forEach((slide) => {
                 slide.style = `transform: translateX(${-newPosition}px)`
             })
@@ -583,6 +583,9 @@ const Metinvest = () => {
                                 <img src={soundQuestion} alt="Question" onClick={() => setFirstModalActive(true)}/>
                             </div>
                         </div>
+                        <div className="main-turntable" onClick={onMusicClick}>
+                            <div className={dotInTurntable ? 'dot active' : 'dot'}></div>
+                        </div>
                         <div className="main-timer">
                             <div>
                                 <span className="time-days">{remainingTime.days}:</span>
@@ -605,40 +608,56 @@ const Metinvest = () => {
                                                            id={s.id}/>)}
                         </div>
                         <div className="main-fire-cat">
-                            <div className="main-fire" onClick={onFireClick}></div>
-                            <div className="main-cat" onClick={onCatClick}></div>
+                            <div className={fireClicked ? 'main-fire active' : 'main-fire'} onClick={onFireClick}>
+                                <img className='fire-item' src={fireItem1} alt="fireItem"/>
+                                <img className='fire-item' src={fireItem2} alt="fireItem"/>
+                                <img className='fire-item' src={fireItem3} alt="fireItem"/>
+                                <img className='fire-item' src={fireItem4} alt="fireItem"/>
+                                <img className='fire-item' src={fireItem5} alt="fireItem"/>
+                                <img className='fire-item' src={fireItem6} alt="fireItem"/>
+                                <img className='fire-item' src={fireItem7} alt="fireItem"/>
+                            </div>
+                            <div className={catClicked ? 'main-cat active' : 'main-cat'} onClick={onCatClick}>
+                                <img className="cat-tail" src={catTail} alt="Cat Tail"/>
+                            </div>
                         </div>
                     </div>
                     <div className={firstModalActive ? "modal-first" : "modal-first disabled"}>
                         <div className="modal-first-container">
                             <div className="modal-first-window">
                                 <div className="modal-first-wrapper">
-                                    <h2 className='modal-first-title'>Ласкаво просимо до онлайн порталу чарівного
-                                        благодійного
-                                        святкового свята!</h2>
+                                    <h2 className='modal-first-title'>Ласкаво просимо до чарівної кімнати новорічних див!</h2>
                                 </div>
                                 <img className="modal-first-image" src={santa1} alt="Santa"/>
                                 <div className="modal-first-wrapper">
                                     <p className='modal-first-text'>
-                                        Марко та Оленка бавилися у сніжки,
-                                        ліпили снігових баб і цілі фортеці.
-                                        З ними часто бавився Жартун з Найвеселішої країни
-                                        Найсмішніших жартунів (чи як там вона називається)
-                                        та Сонячний Промінчик. Кузь та Русалоньки зараз спали аж до літа.
+                                        Кожного року ми отримуємо новорічні подарунки – від близьких, друзів, корпоративні сувеніри від компанії. Але цьогоріч усе інакше: змінюються пріоритети, дії стають іншими, звичні речі набувають надважливого значення. Навіть прості слова отримують нові, більш глибокі змісти. У мінливому сьогоденні кожен шукає свою точку опори.
+                                        <br/><br/>
+                                        Тому новорічний подарунок зразка 2022 року також буде особливим. Так, ви не зможете його торкнутися, однак обов’язково відчуєте його тепло. Бо справжній подарунок – це завжди про відчуття. Відчуття особливого єднання та причетності до створення новорічного дива для тих, хто зараз найбільше цього потребує.
+                                        <br/><br/>
+                                        На нашому порталі зібрано десять історій. Кожна з них пов’язана з очікуваннями, що для головних героїв стануть справжнім дивом. Це історії окремих людей, родин, об’єднань, які через війну втратили своє місце сили, роботу, домівку чи близьких. Зараз цим людям дуже потрібна надійна опора. Завдяки вашій чуйності їхні історії закінчаться добрими новорічними справами. Натомість ви отримаєте можливість зробити для когось справжнє чудо – засвітити усмішками дитячі обличчя, зігріти теплом та увагою стареньких, розрадити людей, які самотужки долають труднощі.
+                                        <br/><br/>
+                                        Тож нумо робити дива разом!
                                     </p>
                                     <div className="first-modal-socks">
                                         {firstModalSock.map((s) => <FirstModalSock img={s.img}/>)}
                                     </div>
                                     <p className="modal-first-text2">
-                                        Інколи він перетворювався на вовка і бігав зі зграєю,
-                                        інколи – на ширяючого в піднебессі орла. А зараз от,
-                                        він вирішив спробувати прожити зиму снігуром. Хоч чарівникові й було
-                                        сто років, але він любив побавитися, посміятися та поганяти за сніжинками.
+                                        У кожній з десяти панчіх ховається новорічне диво. Наведіть на панчоху курсор, щоб побачити його короткий опис, а за кліком відкрийте віконце з розгорнутою розповіддю.
+                                        <br/><br/>
+                                        Завдяки вашій небайдужості кожна з десяти історій гарантовано закінчиться новорічним дивом. Але деякі з них можуть отримати більше уваги. Які саме, визначати вам. Уважно ознайомтеся з усіма дивами та проголосуйте за ті, що, на вашу думку, потребують додаткової уваги. Для цього ви маєте три цукерки – вони відображаються у віконці вгорі.
+                                        <br/><br/>
+                                        (картинка частини попапу дива з цукерками та позначкою)
+                                        <br/><br/>
+                                        Ви можете використати всі три цукерки для одного новорічного дива чи розподілити їх між різними дивами на ваш розсуд.
+                                        <br/><br/>
+                                        Щоб покласти одну цукерку в панчоху дива, треба на сторінці цього дива натиснути на кнопку «Проголосувати».
+                                        <br/><br/>
+                                        Також за бажанням ви можете зробити персональний донейт героям кожної з десяти історій. Для цього слід скористатися QR-кодом, що є в кінці опису кожної історії. Усі кошти надішлють родині чи організації як пряму фінансову допомогу, котра доповнить основне новорічне диво.
                                     </p>
-                                    <p className="modal-first-text3">Кузь та Русалоньки зараз спали аж до літа.</p>
+                                    {/*<p className="modal-first-text3">Тож нумо робити дива разом!</p>*/}
                                     <a href="#" className="modal-first-button"
-                                       onClick={() => setFirstModalActive(false)}>зробити
-                                        чудо</a>
+                                       onClick={() => setFirstModalActive(false)}>Уперед до кімнати новорічних див!</a>
                                 </div>
                             </div>
                         </div>
@@ -650,8 +669,8 @@ const Metinvest = () => {
                     </div>
                 </> : <>
                     <div className="results" style={{backgroundImage: `url(${resultsBg})`}}>
-                        <div className="result-logo">
-                            <img src={logo} alt="Logo"/>
+                        <div className="results-head">
+                            <img src={resultsGradient} alt="Results Gradient"/>
                         </div>
                         <div className="results-content">
                             <h1 className="results-content-title">Результати голосування</h1>
@@ -748,7 +767,7 @@ const Metinvest = () => {
                         <img src={mainSock2} alt="Sock"/>
                     </div>
                     <p className="mobile-main-text">
-                        Для того щоб створити диво, завітайте, будь-ласка, до нас з компʼютеру!
+                        Щоб приєднатися до створення новорічного дива, завітайте до нас з комп’ютера!
                     </p>
                 </div>
             </div>
@@ -810,7 +829,7 @@ const ModalWindow = (props) => {
                 <div className='modal-btns-wrapper'>
                     <div className='modal-btns'>
                         { props.voted ? <p className="completed-message">Голос враховано</p> : (props.canVote
-                            ? <a href="#" className="modal-btn-one" onClick={() => props.setModalMessageActive(true)}>віддати свій голос</a>
+                            ? <a href="#" className="modal-btn-one" onClick={() => props.setModalMessageActive(true)}>Проголосувати</a>
                             : <p className="completed-message">Подарунків не залишилося</p>)
                         }
                         <div
@@ -819,13 +838,12 @@ const ModalWindow = (props) => {
                             <div className="modal-btns-message">
                                 <img className='modal-dots' src={dots} alt="Dots"/>
                                 <div className={props.modalMessageYesActive ? 'modal-message' : 'modal-message-content-disabled'}>
-                                    <p className="modal-btns-message-text">Підтвердіть своє бажання натиснувши
-                                        “ТАК”</p>
+                                    <p className="modal-btns-message-text">Натиснувши «Так», ви віддасте один із трьох голосів за проєкт {props.title}</p>
                                     <div className="modal-btns-message-btns">
                                         <a href="#" className="modal-btns-message-btn"
                                            onClick={() => props.onModalMessageClick()}>так</a>
                                         <a href="#" className="modal-btns-message-btn"
-                                           onClick={() => props.setModalMessageActive(false)}>ні</a>
+                                           onClick={() => props.setModalMessageActive(false)}>подумаю ще</a>
                                     </div>
                                 </div>
                                 <div className={props.votingInProcess ? 'preloader active' : 'preloader'}>
@@ -841,11 +859,11 @@ const ModalWindow = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <a href='#' className="modal-btn-two">відправити гроші</a>
+
                     </div>
                     <div className='modal-qr-code'>
                         <img src={qr} alt="QR Code"/>
-                        <p className="modal-qr-text">{props.title}</p>
+                        <p className="modal-qr-text">Надіслати гроші самостійно</p>
                     </div>
                 </div>
             </div>
