@@ -49,16 +49,16 @@ import armchair from '../img/assets/armchair.png'
 import cat from '../audio/cat.mp3'
 import fire from '../audio/fire.mp3'
 import music from '../audio/music.mp3'
-import Slide1 from '../img/slidesImages/slide1.png'
+import Slide1 from '../img/slidesImages/slide1.jpeg'
 import Slide2 from '../img/slidesImages/slide2.jpeg'
-import Slide3 from '../img/slidesImages/slide3.png'
-import Slide4 from '../img/slidesImages/slide4.png'
-import Slide5 from '../img/slidesImages/slide5.png'
-import Slide6 from '../img/slidesImages/slide6.png'
-import Slide7 from '../img/slidesImages/slide7.png'
+import Slide3 from '../img/slidesImages/slide3.jpeg'
+import Slide4 from '../img/slidesImages/slide4.JPG'
+import Slide5 from '../img/slidesImages/slide5.jpeg'
+import Slide6 from '../img/slidesImages/slide6.jpg'
+import Slide7 from '../img/slidesImages/slide7.jpeg'
 import Slide8 from '../img/slidesImages/slide8.png'
-import Slide9 from '../img/slidesImages/slide9.png'
-import Slide10 from '../img/slidesImages/slide10.png'
+import Slide9 from '../img/slidesImages/slide9.jpeg'
+import Slide10 from '../img/slidesImages/slide10.jpeg'
 import fireItem1 from '../img/fireItems/fireitem1.png'
 import fireItem2 from '../img/fireItems/fireitem2.png'
 import fireItem3 from '../img/fireItems/fireitem3.png'
@@ -107,7 +107,7 @@ const Metinvest = () => {
     const [slides, setSlider] = useState([
         {
             number: 1,
-            title: 'Кімната, сповнена почуттів',
+            title: 'Кімната, що дарує відчуття',
             text: 'Для малечі з запорізького Центру реабілітації дітей з інвалідністю справжнім дивом було б навчитися всеосяжно відчувати навколишній світ, яскравіше проживати приємні події, яскраво відзначати успіхи в навчанні. У наших силах перетворити цю мрію в мету.\n' +
                 'Ми створимо в Центрі особливе місце – чарівну дитячу кімнату. Там буде спеціальне обладнання, що допоможе дітлахам повноцінно відчувати емоції, адаптуватися до навколишнього життя та глибше сприймати турботу, любов і радість.\n' +
                 'У базовий набір сенсорної кімнати ввійде 27 предметів професійного устаткування. Якщо вважаєте, що цей проєкт вартий додаткової уваги та хочете розширити кількість корисних речей, ви можете віддати за нього свої голоси-цукерки – один, два чи всі три.\n' +
@@ -135,7 +135,7 @@ const Metinvest = () => {
         },
         {
             number: 4,
-            title: 'Чудо-піч для бабусь і дідусів',
+            title: 'Диво-піч для бабусь і дідусів',
             text: 'Це тяжко усвідомити, але для когось гарячі страви щодня – уже диво. Ще болісніше знати, що подібне трапляється з тими, хто не може самостійно про себе піклуватися.\n' +
                 'У двох будинках милосердя в Кривому Розі живуть сто п’ятдесят людей похилого віку. За вимкненого світла вони залишаються без теплої їжі, бо генератори закладів не тягнуть стандартні електроплити. Щоб нагодувати всіх стареньких, працівники варять страви у дворі на багатті.\n' +
                 'Проблему можуть розв’язати сучасні пароконвекційні печі. Устаткування на 60% зменшить споживання електроенергії. Цього достатньо, щоб живлення генераторів вистачало для повноцінного приготування їжі. Завдяки вам такі прилади обов’язково придбають і встановлять у кожному з будинків милосердя.\n' +
@@ -616,7 +616,7 @@ const Metinvest = () => {
                                         <br/><br/>
                                         Завдяки вашій небайдужості кожна з десяти історій гарантовано закінчиться новорічним дивом. Але деякі з них можуть отримати більше уваги. Які саме, визначати вам. Уважно ознайомтеся з усіма дивами та проголосуйте за ті, що, на вашу думку, потребують додаткової уваги. Для цього ви маєте три цукерки – вони відображаються у віконці вгорі.
                                         <br/><br/>
-                                        <img src={firstModalImgTwo} alt="Imaget two"/>
+                                        <img src={firstModalImgTwo} alt="Image two"/>
                                         <br/><br/>
                                         Ви можете використати всі три цукерки для одного новорічного дива чи розподілити їх між різними дивами на ваш розсуд.
                                         <br/><br/>
@@ -823,8 +823,7 @@ const ModalWindow = (props) => {
                                     <p className="modal-btns-message-text">Дякуємо!</p>
                                 </div>
                                 <div className={props.voteError ? '' : 'modal-message-content-disabled'}>
-                                    <p className="modal-btns-message-text">Что-то пошло не так <br/>Повторите
-                                        попытку позже</p>
+                                    <p className="modal-btns-message-text">Щось трапилось.<br/>Спробуйте ще раз.</p>
                                 </div>
                             </div>
                         </div>

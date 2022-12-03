@@ -123,7 +123,7 @@ img {
     overflow: hidden;
 }
 .modal-first-wrapper {
-    width: 651px;
+    width: 993px;
     margin: 0 auto;
 }
 .modal-first-btn-close {
@@ -146,11 +146,11 @@ img {
     max-width: 691px;
     text-align: center;
     font-weight: 600;
+    margin: 0 auto;
 }
 .modal-first-text {
     font-weight: normal;
-    font-size: 17px;
-    max-width: 627px;
+    font-size: 18px;
 }
 .overlay-first {
     opacity: 1;
@@ -160,9 +160,6 @@ img {
     align-items: center;
     width: 428px;
     margin: 44px auto 36px auto;
-}
-.modal-first-text2 {
-    max-width: 627px;
 }
 .modal-first-text3 {
     font-weight: 700;
@@ -345,14 +342,13 @@ img {
 .modal-img {
     margin: 15px auto 0 auto;
     width: 829px;
-    height: 341px;
     border-radius: 15px;
 }
 .modal-desc {
     font-family: Gilroy, sans-serif;
     font-weight: 400;
-    font-size: 17px;
-    max-width: 627px;
+    font-size: 18px;
+    max-width: 829px;
     margin: 24px auto 0 auto;
 }
 .modal-subtitle {
@@ -497,7 +493,7 @@ img {
     font-family: Gilroy, sans-serif;
     font-weight: 600;
     font-size: 18px;
-    max-width: 220px;
+    max-width: 268px;
     text-align: center;
     margin: -17px auto 0 auto;
 }
