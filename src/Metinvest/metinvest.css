@@ -466,6 +466,11 @@ img {
 }
 .modal-btns-message-btn:nth-child(1) {
     background: #4D8650;
+    height: 64px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .modal-btns-message-btn:nth-child(2) {
     background: #FF2F2F;
@@ -479,10 +484,10 @@ img {
     align-items: center;
     justify-content: center;
     position: absolute;
-    width: 311px;
-    height: 155px;
-    margin-top: -221px;
-    margin-left: 222px;
+    width: 382px;
+    height: 231px;
+    margin-top: -304px;
+    margin-left: -47px;
     display: none;
 }
 .modal-btns-message-wrapper.active {
