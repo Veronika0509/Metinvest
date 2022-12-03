@@ -68,6 +68,7 @@ import fireItem6 from '../img/fireItems/fireitem6.png'
 import fireItem7 from '../img/fireItems/fireitem7.png'
 import catTail from '../img/assets/cattail.png'
 import resultsGradient from '../img/assets/results-gradient.png'
+import firstModalImgTwo from '../img/assets/first-modal-img-two.png'
 
 
 const serverUrl = "http://localhost:3003/"
@@ -615,7 +616,7 @@ const Metinvest = () => {
                                         <br/><br/>
                                         Завдяки вашій небайдужості кожна з десяти історій гарантовано закінчиться новорічним дивом. Але деякі з них можуть отримати більше уваги. Які саме, визначати вам. Уважно ознайомтеся з усіма дивами та проголосуйте за ті, що, на вашу думку, потребують додаткової уваги. Для цього ви маєте три цукерки – вони відображаються у віконці вгорі.
                                         <br/><br/>
-                                        (картинка частини попапу дива з цукерками та позначкою)
+                                        <img src={firstModalImgTwo} alt="Imaget two"/>
                                         <br/><br/>
                                         Ви можете використати всі три цукерки для одного новорічного дива чи розподілити їх між різними дивами на ваш розсуд.
                                         <br/><br/>
