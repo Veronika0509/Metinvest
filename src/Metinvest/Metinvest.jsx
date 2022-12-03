@@ -68,6 +68,7 @@ import fireItem6 from '../img/fireItems/fireitem6.png'
 import fireItem7 from '../img/fireItems/fireitem7.png'
 import catTail from '../img/assets/cattail.png'
 import resultsGradient from '../img/assets/results-gradient.png'
+import Parser from 'html-react-parser';
 
 const serverUrl = "http://localhost:3003/"
 // const serverUrl = "https://metinvest-app.herokuapp.com/"
@@ -822,7 +823,7 @@ const ModalWindow = (props) => {
                 <h1 className='modal-title'>{props.title}</h1>
                 <img className='modal-img' src={props.img} alt="Modal Image"/>
                 <p className='modal-desc'>
-                    {props.text}
+                    {Parser(props.text.replaceAll("\n", "<br/>"))}
                 </p>
                 <h3 className='modal-subtitle'>{props.title}</h3>
                 {/*{props.voted ? 'VOTED' : 'NOT VOTED'}*/}
