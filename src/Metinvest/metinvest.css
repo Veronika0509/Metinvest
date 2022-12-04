@@ -361,7 +361,6 @@ img {
     margin: 22px auto 0 auto;
     display: flex;
     align-items: center;
-    width: 524px;
 }
 .modal-btn-one {
     font-family: Gilroy, sans-serif;
@@ -374,6 +373,10 @@ img {
     padding: 25px 56px 21px 57px;
     border-radius: 10px;
     transition: .3s;
+}
+.modal-btns {
+    display: block;
+    margin: 0 auto;
 }
 .modal-btn-one:hover {
     box-shadow: 0 12px 39px 21px rgba(77, 134, 80, 0.2);

@@ -83,7 +83,6 @@ const defaultRemainingTime = {
 const countdownTimestampMs = new Date('December 9, 2022 00:10:00').getTime()
 
 const Metinvest = () => {
-    console.log(new Date('December 9, 2022 00:10:00'))
     const [sockModalActiveId, setSockModalActiveId] = useState()
     const [firstModalActive, setFirstModalActive] = useState(true)
     const [modalMessageActive, setModalMessageActive] = useState(false)
@@ -379,36 +378,36 @@ const Metinvest = () => {
 
     useEffect(() => {
         // if (timeOut) {
-            fetch(serverUrl + `votes`).then(async (response) => {
-                if (response.ok) {
-                    const data = await response.json()
-                    const votesByProject = {}
-                    const rateByProject = {}
+        fetch(serverUrl + `votes`).then(async (response) => {
+            if (response.ok) {
+                const data = await response.json()
+                const votesByProject = {}
+                const rateByProject = {}
 
-                    let min = 1000000, max = 0;
-                    data.forEach((item) => {
-                        votesByProject[item.project] = item.votes
+                let min = 1000000, max = 0;
+                data.forEach((item) => {
+                    votesByProject[item.project] = item.votes
 
-                        if (item.votes > max) {
-                            max = item.votes
-                        }
+                    if (item.votes > max) {
+                        max = item.votes
+                    }
 
-                        if (item.votes < min) {
-                            min = item.votes
-                        }
-                    })
+                    if (item.votes < min) {
+                        min = item.votes
+                    }
+                })
 
-                    data.forEach((item) => {
-                        rateByProject[item.project] =  1 - ((max - min) - (item.votes - min)) / (max - min)
-                    })
+                data.forEach((item) => {
+                    rateByProject[item.project] = 1 - ((max - min) - (item.votes - min)) / (max - min)
+                })
 
-                    setResultsArray(projects.map(project => {
-                        return {...project, votes: votesByProject[project.id] ?? 0}
-                    }).sort( (a, b) => b.votes - a.votes))
+                setResultsArray(projects.map(project => {
+                    return {...project, votes: votesByProject[project.id] ?? 0}
+                }).sort((a, b) => b.votes - a.votes))
 
-                    setVotingRate(rateByProject)
-                }
-            })
+                setVotingRate(rateByProject)
+            }
+        })
         // }
     }, [])
 
@@ -456,7 +455,7 @@ const Metinvest = () => {
             setSockModalActiveId(0)
         }
         if (Number(sockModalActiveId) >= projects.length) {
-            setSockModalActiveId((projects.length -1).toString())
+            setSockModalActiveId((projects.length - 1).toString())
         }
         if (sockModalActiveId !== undefined) {
             const newPosition = Number(sockModalActiveId) * 1200
@@ -545,16 +544,31 @@ const Metinvest = () => {
                         <div className="modal-first-container">
                             <div className="modal-first-window">
                                 <div className="modal-first-wrapper">
-                                    <h2 className='modal-first-title'>Ласкаво просимо до чарівної кімнати новорічних див!</h2>
+                                    <h2 className='modal-first-title'>Ласкаво просимо до чарівної кімнати новорічних
+                                        див!</h2>
                                 </div>
                                 <img className="modal-first-image" src={santa1} alt="Santa"/>
                                 <div className="modal-first-wrapper">
                                     <p className='modal-first-text'>
-                                        Кожного року ми отримуємо новорічні подарунки – від близьких, друзів, корпоративні сувеніри від компанії. Але цьогоріч усе інакше: змінюються пріоритети, дії стають іншими, звичні речі набувають надважливого значення. Навіть прості слова отримують нові, більш глибокі змісти. У мінливому сьогоденні кожен шукає свою точку опори.
+                                        Кожного року ми отримуємо новорічні подарунки – від близьких, друзів,
+                                        корпоративні сувеніри від компанії. Але цьогоріч усе інакше: змінюються
+                                        пріоритети, дії стають іншими, звичні речі набувають надважливого значення.
+                                        Навіть прості слова отримують нові, більш глибокі змісти. У мінливому сьогоденні
+                                        кожен шукає свою точку опори.
                                         <br/><br/>
-                                        Тому новорічний подарунок зразка 2022 року також буде особливим. Так, ви не зможете його торкнутися, однак обов’язково відчуєте його тепло. Бо справжній подарунок – це завжди про відчуття. Відчуття особливого єднання та причетності до створення новорічного дива для тих, хто зараз найбільше цього потребує.
+                                        Тому новорічний подарунок зразка 2022 року також буде особливим. Так, ви не
+                                        зможете його торкнутися, однак обов’язково відчуєте його тепло. Бо справжній
+                                        подарунок – це завжди про відчуття. Відчуття особливого єднання та причетності
+                                        до створення новорічного дива для тих, хто зараз найбільше цього потребує.
                                         <br/><br/>
-                                        На нашому порталі зібрано десять історій. Кожна з них пов’язана з очікуваннями, що для головних героїв стануть справжнім дивом. Це історії окремих людей, родин, об’єднань, які через війну втратили своє місце сили, роботу, домівку чи близьких. Зараз цим людям дуже потрібна надійна опора. Завдяки вашій чуйності їхні історії закінчаться добрими новорічними справами. Натомість ви отримаєте можливість зробити для когось справжнє чудо – засвітити усмішками дитячі обличчя, зігріти теплом та увагою стареньких, розрадити людей, які самотужки долають труднощі.
+                                        На нашому порталі зібрано десять історій. Кожна з них пов’язана з очікуваннями,
+                                        що для головних героїв стануть справжнім дивом. Це історії окремих людей, родин,
+                                        об’єднань, які через війну втратили своє місце сили, роботу, домівку чи
+                                        близьких. Зараз цим людям дуже потрібна надійна опора. Завдяки вашій чуйності
+                                        їхні історії закінчаться добрими новорічними справами. Натомість ви отримаєте
+                                        можливість зробити для когось справжнє чудо – засвітити усмішками дитячі
+                                        обличчя, зігріти теплом та увагою стареньких, розрадити людей, які самотужки
+                                        долають труднощі.
                                         <br/><br/>
                                         Тож нумо робити дива разом!
                                     </p>
@@ -562,17 +576,28 @@ const Metinvest = () => {
                                         {firstModalSock.map((s) => <FirstModalSock img={s.img}/>)}
                                     </div>
                                     <p className="modal-first-text2">
-                                        У кожній з десяти панчіх ховається новорічне диво. Наведіть на панчоху курсор, щоб побачити його короткий опис, а за кліком відкрийте віконце з розгорнутою розповіддю.
+                                        У кожній з десяти панчіх ховається новорічне диво. Наведіть на панчоху курсор,
+                                        щоб побачити його короткий опис, а за кліком відкрийте віконце з розгорнутою
+                                        розповіддю.
                                         <br/><br/>
-                                        Завдяки вашій небайдужості кожна з десяти історій гарантовано закінчиться новорічним дивом. Але деякі з них можуть отримати більше уваги. Які саме, визначати вам. Уважно ознайомтеся з усіма дивами та проголосуйте за ті, що, на вашу думку, потребують додаткової уваги. Для цього ви маєте три цукерки – вони відображаються у віконці вгорі.
+                                        Завдяки вашій небайдужості кожна з десяти історій гарантовано закінчиться
+                                        новорічним дивом. Але деякі з них можуть отримати більше уваги. Які саме,
+                                        визначати вам. Уважно ознайомтеся з усіма дивами та проголосуйте за ті, що, на
+                                        вашу думку, потребують додаткової уваги. Для цього ви маєте три цукерки – вони
+                                        відображаються у віконці вгорі.
                                         <br/><br/>
                                         <img src={firstModalImgTwo} alt="Image two"/>
                                         <br/><br/>
-                                        Ви можете використати всі три цукерки для одного новорічного дива чи розподілити їх між різними дивами на ваш розсуд.
+                                        Ви можете використати всі три цукерки для одного новорічного дива чи розподілити
+                                        їх між різними дивами на ваш розсуд.
                                         <br/><br/>
-                                        Щоб покласти одну цукерку в панчоху дива, треба на сторінці цього дива натиснути на кнопку «Проголосувати».
+                                        Щоб покласти одну цукерку в панчоху дива, треба на сторінці цього дива натиснути
+                                        на кнопку «Проголосувати».
                                         <br/><br/>
-                                        Також за бажанням ви можете зробити персональний донейт героям кожної з десяти історій. Для цього слід скористатися QR-кодом, що є в кінці опису кожної історії. Усі кошти надішлють родині чи організації як пряму фінансову допомогу, котра доповнить основне новорічне диво.
+                                        Також за бажанням ви можете зробити персональний донейт героям кожної з десяти
+                                        історій. Для цього слід скористатися QR-кодом, що є в кінці опису кожної
+                                        історії. Усі кошти надішлють родині чи організації як пряму фінансову допомогу,
+                                        котра доповнить основне новорічне диво.
                                     </p>
                                     {/*<p className="modal-first-text3">Тож нумо робити дива разом!</p>*/}
                                     <a href="#" className="modal-first-button"
@@ -622,11 +647,11 @@ const Metinvest = () => {
                                     <img src={modalPrev} alt="Previous slide"/>
                                 </div>
                                 <div className="modal-socks">
-                                    {projects.map( project => <img className="modal-sock"
-                                                                   onClick={(event) => setSockModalActiveId(event.currentTarget.id)}
-                                                                   src={sockModalActiveId === project.id.toString() ? modalActiveSock : modalSock}
-                                                                   id={project.id}
-                                                                   alt="Sock"/>)
+                                    {projects.map(project => <img className="modal-sock"
+                                                                  onClick={(event) => setSockModalActiveId(event.currentTarget.id)}
+                                                                  src={sockModalActiveId === project.id.toString() ? modalActiveSock : modalSock}
+                                                                  id={project.id}
+                                                                  alt="Sock"/>)
                                     }
                                 </div>
                                 <div className="modal-next"
@@ -713,7 +738,10 @@ const MainSock = (props) => {
                     <p className="main-sock-desc">{props.text}</p>
                 </div>
             </div>
-            <div style={{transform: `scaleY(${100 + props.votingRate[props.id] * 30}%)`, paddingTop: `${props.votingRate[props.id] * 40}px`}}>
+            <div style={{
+                transform: `scaleY(${100 + props.votingRate[props.id] * 30}%)`,
+                paddingTop: `${props.votingRate[props.id] * 40}px`
+            }}>
                 <div className="main-sock"
                      onClick={() => props.setSockModalActiveId(props.id)}>
                     <img src={props.img} alt='Sock'/>
@@ -731,60 +759,58 @@ const ResultItem = (props) => {
             <p className="result-item-votes">{props.votes}</p>
             <p className="result-item-votes-text">Голосів</p>
             <h2 className="result-item-title">{props.title}</h2>
-            <a href="#" className="result-item-btn" onClick={() => props.setSockModalActiveId(props.projectId)}>деталі</a>
+            <a href="#" className="result-item-btn"
+               onClick={() => props.setSockModalActiveId(props.projectId)}>деталі</a>
         </div>
     )
 }
 const ModalWindow = (props) => {
     return (
-            <div className="modal-window">
-                <h1 className='modal-title'>{props.title}</h1>
-                <img className='modal-img' src={props.img} alt="Modal Image"/>
-                <p className='modal-desc'>
-                    {Parser(props.text.replaceAll("\n", "<br/><br/>"))}
-                </p>
-                <h3 className='modal-subtitle'>{props.title}</h3>
-                {/*{props.voted ? 'VOTED' : 'NOT VOTED'}*/}
-                <div className='modal-btns-wrapper'>
-                    <div className='modal-btns'>
-                        { props.voted ? <p className="completed-message">Голос враховано</p> : (props.canVote
-                            ? <a href="#" className="modal-btn-one" onClick={() => props.setModalMessageActive(true)}>Проголосувати</a>
-                            : <p className="completed-message">Подарунків не залишилося</p>)
-                        }
-                        <div
-                            className={props.modalMessageActive ? 'modal-btns-message-wrapper active' : 'modal-btns-message-wrapper'}
-                            style={{backgroundImage: `url(${modalMessageBg}`}}>
-                            <div className="modal-btns-message">
-                                <img className='modal-dots' src={dots} alt="Dots"/>
-                                <div className={props.modalMessageYesActive ? 'modal-message' : 'modal-message-content-disabled'}>
-                                    <p className="modal-btns-message-text">Натиснувши «Так», ви віддасте один із трьох голосів за проєкт {props.title}</p>
-                                    <div className="modal-btns-message-btns">
-                                        <a href="#" className="modal-btns-message-btn"
-                                           onClick={() => props.onModalMessageClick()}>так</a>
-                                        <a href="#" className="modal-btns-message-btn"
-                                           onClick={() => props.setModalMessageActive(false)}>подумаю ще</a>
-                                    </div>
-                                </div>
-                                <div className={props.votingInProcess ? 'preloader active' : 'preloader'}>
-                                    <div className="loader"></div>
-                                </div>
-                                <div
-                                    className={props.modalMessageThankYouActive ? '' : 'modal-message-content-disabled'}>
-                                    <p className="modal-btns-message-text">Дякуємо!</p>
-                                </div>
-                                <div className={props.voteError ? '' : 'modal-message-content-disabled'}>
-                                    <p className="modal-btns-message-text">Щось трапилось.<br/>Спробуйте ще раз.</p>
+        <div className="modal-window">
+            <h1 className='modal-title'>{props.title}</h1>
+            <img className='modal-img' src={props.img} alt="Modal Image"/>
+            <p className='modal-desc'>
+                {Parser(props.text.replaceAll("\n", "<br/><br/>"))}
+            </p>
+            <h3 className='modal-subtitle'>{props.title}</h3>
+            {/*{props.voted ? 'VOTED' : 'NOT VOTED'}*/}
+            <div className='modal-btns-wrapper'>
+                <div className='modal-btns'>
+                    {props.voted ? <p className="completed-message">Голос враховано</p> : (props.canVote
+                        ? <a href="#" className="modal-btn-one"
+                             onClick={() => props.setModalMessageActive(true)}>Проголосувати</a>
+                        : <p className="completed-message">Подарунків не залишилося</p>)
+                    }
+                    <div className={props.modalMessageActive ? 'modal-btns-message-wrapper active' : 'modal-btns-message-wrapper'}
+                        style={{backgroundImage: `url(${modalMessageBg}`}}>
+                        <div className="modal-btns-message">
+                            <img className='modal-dots' src={dots} alt="Dots"/>
+                            <div
+                                className={props.modalMessageYesActive ? 'modal-message' : 'modal-message-content-disabled'}>
+                                <p className="modal-btns-message-text">Натиснувши «Так», ви віддасте один із трьох
+                                    голосів за проєкт {props.title}</p>
+                                <div className="modal-btns-message-btns">
+                                    <a href="#" className="modal-btns-message-btn"
+                                       onClick={() => props.onModalMessageClick()}>так</a>
+                                    <a href="#" className="modal-btns-message-btn"
+                                       onClick={() => props.setModalMessageActive(false)}>подумаю ще</a>
                                 </div>
                             </div>
+                            <div className={props.votingInProcess ? 'preloader active' : 'preloader'}>
+                                <div className="loader"></div>
+                            </div>
+                            <div
+                                className={props.modalMessageThankYouActive ? '' : 'modal-message-content-disabled'}>
+                                <p className="modal-btns-message-text">Дякуємо!</p>
+                            </div>
+                            <div className={props.voteError ? '' : 'modal-message-content-disabled'}>
+                                <p className="modal-btns-message-text">Щось трапилось.<br/>Спробуйте ще раз.</p>
+                            </div>
                         </div>
-
-                    </div>
-                    <div className='modal-qr-code'>
-                        <img src={qr} alt="QR Code"/>
-                        <p className="modal-qr-text">Надіслати гроші самостійно</p>
                     </div>
                 </div>
             </div>
+        </div>
     )
 }
 
