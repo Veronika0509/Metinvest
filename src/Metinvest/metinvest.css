@@ -833,6 +833,7 @@ img {
     position: absolute;
     left: 1170px;
     top: 115px;
+    cursor: pointer;
 }
 .cat-tail.active {
     animation-name: cat-tail;
