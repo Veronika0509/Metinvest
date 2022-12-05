@@ -222,7 +222,7 @@ img {
 /*    transform: scaleY(130%)*/
 /*}*/
 .main-socks {
-    /*margin-top: 30px;*/
+    margin-top: 30px;
     display: flex;
     align-items: center;
     width: 980px;
@@ -363,7 +363,7 @@ img {
     margin-top: 20px;
 }
 .modal-btns-wrapper {
-    margin: 22px auto 0 auto;
+    margin: 0 auto;
     display: flex;
     align-items: center;
 }
@@ -900,4 +900,23 @@ img {
 }
 .arrow-down:nth-child(2) {
     margin-top: -33px;
+}
+.modal-btns-qrs-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 552px;
+    margin: 22px auto 0 auto;
+}
+.qrcode-image img {
+    width: 177px;
+    margin: 0 auto;
+}
+.qrcode-text {
+    font-family: Gilroy, sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    text-align: center;
+    margin-top: 17px;
+    color: #929292;
 }
