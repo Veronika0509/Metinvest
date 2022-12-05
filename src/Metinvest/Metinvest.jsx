@@ -69,6 +69,7 @@ import fireItem7 from '../img/fireItems/fireitem7.png'
 import catTail from '../img/assets/cattail.png'
 import resultsGradient from '../img/assets/results-gradient.png'
 import firstModalImgTwo from '../img/assets/first-modal-img-two.png'
+import arrowDown from '../img/assets/down-arrow.png'
 
 
 const serverUrl = "http://localhost:3003/"
@@ -762,13 +763,20 @@ const ModalWindow = (props) => {
         <div className="modal-window">
             <h1 className='modal-title'>{props.title}</h1>
             <img className='modal-img' src={props.img} alt="Modal Image"/>
+            <div className="mouse-container">
+                <div className="mouse"></div>
+                <div className="arrow-down-container">
+                    <div className="arrow-down"><img src={arrowDown} alt="Arrow down"/></div>
+                    <div className="arrow-down"><img src={arrowDown} alt="Arrow down"/></div>
+                </div>
+            </div>
             <p className='modal-desc'>
                 {Parser(props.text.replaceAll("\n\n", "\n").replaceAll("\n", "<br/><br/>"))}
             </p>
             <h3 className={props.results ? 'modal-subtitle' : 'modal-subtitle todisable'}>{props.title}</h3>
             {/*{props.voted ? 'VOTED' : 'NOT VOTED'}*/}
             <div className='modal-btns-wrapper'>
-                <div className='modal-btns'>
+                <div className='modal-btns' id="down">
                     {props.voted ? <p className={props.results ? 'completed-message' : 'completed-message todisable'}>Голос враховано</p> : (props.canVote
                         ? <a href="#" className={props.results ? 'modal-btn-one' : 'modal-btn-one todisable'}
                              onClick={() => props.setModalMessageActive(true)}>Проголосувати</a>
