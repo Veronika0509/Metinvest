@@ -222,7 +222,7 @@ img {
 /*    transform: scaleY(130%)*/
 /*}*/
 .main-socks {
-    margin-top: 30px;
+    /*margin-top: 30px;*/
     display: flex;
     align-items: center;
     width: 980px;
@@ -237,13 +237,18 @@ img {
     cursor: pointer;
 }
 .main-fire-cat {
-    display: flex;
+    /*display: flex;*/
+    position: relative;
 }
 .main-cat {
+    /*position: relative;*/
     width: 192px;
     height: 140px;
-    margin-top: 183px;
-    margin-left: 273px;
+    /*margin-top: 183px;*/
+    /*margin-left: 273px;*/
+    position: absolute;
+    left: 1080px;
+    top: 42px;
     cursor: pointer;
 }
 .main-sock {
@@ -822,11 +827,15 @@ img {
 }
 
 .cat-tail {
-    margin-top: 73px;
-    margin-left: 106px;
+    /*margin-top: 73px;*/
+    /*margin-left: 106px;*/
     transform-origin: top right;
+    position: absolute;
+    left: 1170px;
+    top: 115px;
+    cursor: pointer;
 }
-.main-cat.active .cat-tail {
+.cat-tail.active {
     animation-name: cat-tail;
     animation-duration: 1s;
     animation-iteration-count: infinite;
