@@ -526,9 +526,9 @@ const Metinvest = () => {
                                 <img className='fire-item' src={fireItem6} alt="fireItem"/>
                                 <img className='fire-item' src={fireItem7} alt="fireItem"/>
                             </div>
-                            <div className={catClicked ? 'main-cat active' : 'main-cat'} onClick={onCatClick}>
-                                <img className="cat-tail" src={catTail} alt="Cat Tail"/>
+                            <div className='main-cat' onClick={onCatClick}>
                             </div>
+                            <img className={catClicked ? 'cat-tail active' : 'cat-tail'} src={catTail} alt="Cat Tail"/>
                         </div>
                     </div>
                     <div className={firstModalActive ? "modal-first" : "modal-first disabled"}>
@@ -757,7 +757,7 @@ const ModalWindow = (props) => {
             <h1 className='modal-title'>{props.title}</h1>
             <img className='modal-img' src={props.img} alt="Modal Image"/>
             <p className='modal-desc'>
-                {Parser(props.text.replaceAll("\n", "<br/><br/>"))}
+                {Parser(props.text.replaceAll("\n\n", "\n").replaceAll("\n", "<br/><br/>"))}
             </p>
             <h3 className={props.results ? 'modal-subtitle' : 'modal-subtitle todisable'}>{props.title}</h3>
             {/*{props.voted ? 'VOTED' : 'NOT VOTED'}*/}
