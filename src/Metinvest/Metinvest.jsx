@@ -80,7 +80,7 @@ const defaultRemainingTime = {
     hours: '00',
     minutes: '00'
 }
-const countdownTimestampMs = new Date('December 9, 2022 00:10:00').getTime()
+const countdownTimestampMs = new Date('December 10, 2022 10:00:00').getTime()
 
 const Metinvest = () => {
     const [sockModalActiveId, setSockModalActiveId] = useState()
