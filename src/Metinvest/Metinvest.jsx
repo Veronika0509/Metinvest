@@ -80,7 +80,8 @@ const defaultRemainingTime = {
     hours: '00',
     minutes: '00'
 }
-const countdownTimestampMs = new Date('December 10, 2022 10:00:00').getTime()
+// const countdownTimestampMs = new Date('December 5, 2022 12:43:00').getTime()
+const countdownTimestampMs = new Date('December 8, 2022 23:58:00').getTime()
 
 const Metinvest = () => {
     const [sockModalActiveId, setSockModalActiveId] = useState()
@@ -91,7 +92,7 @@ const Metinvest = () => {
     const [votingInProcess, setVotingInProcess] = useState(false)
     const [voteError, setVoteError] = useState(false)
     const [remainingTime, setRemainingTime] = useState(defaultRemainingTime)
-    const [timeOut, setTimeOut] = useState((countdownTimestampMs - (new Date()).getTime()) < 0)
+    const [timeOut, setTimeOut] = useState(false)
     // const [timeOut, setTimeOut] = useState(true)
     const [resultsArray, setResultsArray] = useState([])
     const [votingRate, setVotingRate] = useState({})
@@ -102,6 +103,10 @@ const Metinvest = () => {
     const [musicClicked, setMusicClicked] = useState(false)
     const [dotInTurntable, setDotInTurntable] = useState(false)
     const [results, setResults] = useState(!timeOut)
+
+    useEffect(() => {
+        setTimeOut(remainingTime.timestampMs < 60000)
+    }, [remainingTime])
 
 
     const [slides, setSlider] = useState([
@@ -339,7 +344,8 @@ const Metinvest = () => {
         return {
             days: getRemainingDays(nowDayjs, timestampDayjs),
             hours: getRemainingHours(nowDayjs, timestampDayjs),
-            minutes: getRemainingMinutes(nowDayjs, timestampDayjs)
+            minutes: getRemainingMinutes(nowDayjs, timestampDayjs),
+            timestampMs: timestampMs - new Date().getTime()
         }
     }
     const getRemainingMinutes = (nowDayjs, timestampDayjs) => {
