@@ -222,7 +222,7 @@ img {
 /*    transform: scaleY(130%)*/
 /*}*/
 .main-socks {
-    margin-top: 30px;
+    /*margin-top: 30px;*/
     display: flex;
     align-items: center;
     width: 980px;
