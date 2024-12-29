@@ -518,7 +518,7 @@ const Metinvest = () => {
                 <source src={music} type="audio/mpeg"/>
             </audio>
             <div className="main">
-                {!timeOut ? <>
+                {/*{!timeOut ? <>*/}
                     <div className="main-section" style={{backgroundImage: `url(${mainSectionBg})`}}>
                         <div className="main-head">
                             <img src={logo} alt="Logo"/>
@@ -634,31 +634,31 @@ const Metinvest = () => {
                         <div className="overlay overlay-first"
                              style={{background: `url(${firstModalBg}) no-repeat center center / cover`}}></div>
                     </div>
-                </> : <>
-                    <div className="results" style={{backgroundImage: `url(${resultsBg})`}}>
-                        <div className="results-head">
-                            <img src={resultsGradient} alt="Results Gradient"/>
-                        </div>
-                        <div className="results-content">
-                            <h1 className="results-content-title">Результати голосування</h1>
-                            <div className="results-content-wrapper">
-                                {resultsArray.map((r) => <ResultItem
-                                    projectId={r.id}
-                                    img={r.img}
-                                    votes={r.votes}
-                                    title={r.title}
-                                    setSockModalActiveId={setSockModalActiveId}
-                                />)}
-                            </div>
-                            <div>
-                                <img className="results-christmas-tree" src={christmasTree} alt="Christmas Tree"/>
-                                <img className="results-floor" src={floor} alt="floor"/>
-                                <img className="results-presents" src={presents} alt="presents"/>
-                                <img className="results-armchair" src={armchair} alt="armchair"/>
-                            </div>
-                        </div>
-                    </div>
-                </>}
+                {/*</> : <>*/}
+                {/*    <div className="results" style={{backgroundImage: `url(${resultsBg})`}}>*/}
+                {/*        <div className="results-head">*/}
+                {/*            <img src={resultsGradient} alt="Results Gradient"/>*/}
+                {/*        </div>*/}
+                {/*        <div className="results-content">*/}
+                {/*            <h1 className="results-content-title">Результати голосування</h1>*/}
+                {/*            <div className="results-content-wrapper">*/}
+                {/*                {resultsArray.map((r) => <ResultItem*/}
+                {/*                    projectId={r.id}*/}
+                {/*                    img={r.img}*/}
+                {/*                    votes={r.votes}*/}
+                {/*                    title={r.title}*/}
+                {/*                    setSockModalActiveId={setSockModalActiveId}*/}
+                {/*                />)}*/}
+                {/*            </div>*/}
+                {/*            <div>*/}
+                {/*                <img className="results-christmas-tree" src={christmasTree} alt="Christmas Tree"/>*/}
+                {/*                <img className="results-floor" src={floor} alt="floor"/>*/}
+                {/*                <img className="results-presents" src={presents} alt="presents"/>*/}
+                {/*                <img className="results-armchair" src={armchair} alt="armchair"/>*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</>}*/}
 
                 <div className={sockModalActiveId ? 'modal active' : 'modal'}>
                     <div className="modal-window-container">
